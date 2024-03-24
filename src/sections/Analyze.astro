@@ -1,0 +1,104 @@
+<section>
+  <div class="bubble"></div>
+  <div class="bubble-2"></div>
+
+  <div class="container">
+    <div class="wrapper">
+      <span>Calcula tu huella ecológica</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    width: 100%;
+    height: 100%;
+    background: #101309;
+    padding: 5rem 1.5rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .wrapper {
+    width: 100%;
+    height: 300px;
+    background-color: rgba(200, 200, 200, 0.1);
+    cursor: pointer;
+    transition:
+      background-color 200ms cubic-bezier(0.47, 0, 0.745, 0.715),
+      transform 200ms cubic-bezier(0.47, 0, 0.745, 0.715);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrapper span {
+    color: #ebff6d;
+    font-size: 40px;
+    font-weight: 600;
+    opacity: auto;
+  }
+
+  .wrapper:hover {
+    background-color: rgba(245, 255, 188, 0.105);
+    transform: scale(1.01);
+  }
+  .container {
+    --b: 1px; /* thickness of the border */
+    --c: #ebff6d; /* color of the border */
+    --w: 20px; /* width of border */
+    --_g: #0000 90deg, var(--c) 0;
+    --_p: var(--w) var(--w) border-box no-repeat;
+    background:
+      conic-gradient(from 90deg at top var(--b) left var(--b), var(--_g)) 0 0 /
+        var(--_p),
+      conic-gradient(from 180deg at top var(--b) right var(--b), var(--_g)) 100%
+        0 / var(--_p),
+      conic-gradient(from 0deg at bottom var(--b) left var(--b), var(--_g)) 0
+        100% / var(--_p),
+      conic-gradient(from -90deg at bottom var(--b) right var(--b), var(--_g))
+        100% 100% / var(--_p);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 1.5rem;
+    z-index: 2;
+    backdrop-filter: blur(20px);
+  }
+  .bubble {
+    width: 100px;
+    height: 100px;
+    background-color: #f1ff89;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: bubbleMove 30s infinite;
+    filter: blur(100px);
+    opacity: 0.5;
+  }
+  .bubble-2 {
+    width: 100px;
+    height: 100px;
+    background-color: #f1ff89;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: bubbleMove 30s infinite;
+    filter: blur(100px);
+    opacity: 1;
+  }
+
+  @keyframes bubbleMove {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+</style>
