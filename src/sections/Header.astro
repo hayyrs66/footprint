@@ -1,0 +1,58 @@
+<header>
+  <nav>
+    <a href="">Acerca de</a>
+    <a href="">Contacto</a>
+  </nav>
+  <a class="logo">
+    <h1>nature</h1>
+  </a>
+  <nav>
+    <a href="">Iniciar sesion</a>
+  </nav>
+</header>
+
+<style>
+  a {
+    all: unset;
+    color: #ebff6d;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: -0.03rem;
+  }
+
+  h1 {
+    color: #ebff6d;
+    font-size: 25px;
+    font-weight: 500;
+  }
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 7.563rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+
+  nav:first-child {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    gap: 2rem;
+  }
+  nav:last-child {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    gap: 1rem;
+  }
+</style>
