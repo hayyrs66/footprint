@@ -13,13 +13,31 @@
 
 <style>
   a {
-    all: unset;
+    display: inline-block;
+    position: relative;
     color: #ebff6d;
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: -0.03rem;
+  }
+
+  a::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0.05rem;
+    background-color: #ebff6d;
+    transition: width 0.3s cubic-bezier(0.3, 0.2, 0.2, 0.8);
+  }
+
+  a:hover::before {
+    width: 100%;
+    left: 0;
+    margin-right: auto;
   }
 
   h1 {
