@@ -4,8 +4,8 @@
   <div class="container">
     <div class="wrapper">
       <div class="slider">
-        <p class="p-1">Calcula tu huella</p>
-        <p class="p-2">Calcula tu huella</p>
+        <p class="p-1">Calcula tu <span>huella</span></p>
+        <p class="p-2">Calcula tu <span>huella</span></p>
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@
     gsap.set(p1, { xPercent: xPercent });
     gsap.set(p2, { xPercent: xPercent });
 
-    xPercent += 0.1 * direction;
+    xPercent += 0.3 * direction;
     requestAnimationFrame(animation);
   };
 
@@ -88,11 +88,19 @@
     position: absolute;
     left: 100%;
   }
-  .wrapper .slider p {
+  .slider p {
     color: #ebff6d;
     font-weight: 400;
     font-size: 80px;
     letter-spacing: -0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slider p span {
+    font-style: italic;
+    margin: 0 1rem;
   }
 
   .wrapper:hover {
