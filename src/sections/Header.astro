@@ -82,18 +82,28 @@ const session = await getSession(Astro.request);
 
   profile.addEventListener("mouseover", () => {
     subMenu.style.display = "grid";
+    subMenu.classList.add("visible");
+    subMenu.classList.remove("hidden");
   });
 
   profile.addEventListener("mouseout", () => {
-    subMenu.style.display = "none";
+    subMenu.classList.add("hidden");
+    subMenu.classList.remove("visible");
+
+
   });
 
   subMenu.addEventListener("mouseover", () => {
     subMenu.style.display = "grid"; // Mantener visible el submenú cuando el mouse está sobre él
+    subMenu.classList.add("visible");
+    subMenu.classList.remove("hidden");
+
   });
 
   subMenu.addEventListener("mouseout", () => {
-    subMenu.style.display = "none"; // Ocultar el submenú solo cuando el mouse sale tanto del perfil como del submenú
+    subMenu.classList.add("hidden");
+    subMenu.classList.remove("visible");
+
   });
   }
 
@@ -113,7 +123,7 @@ const session = await getSession(Astro.request);
     position: relative;
   }
   .sub-menu {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     background-color: #101309;
     width: 100%;
@@ -127,8 +137,16 @@ const session = await getSession(Astro.request);
     margin-top: 1rem;
     border: 1px solid #ebff6d;
     filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.305)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.282));
-    display: none;
   }
+
+  .sub-menu.hidden {
+    animation: fadeOut 200ms cubic-bezier(0.3, 0.2, 0.2, 0.8) forwards;
+  }
+
+  .sub-menu.visible {
+    animation: fadeIn 200ms cubic-bezier(0.3, 0.2, 0.2, 0.8) forwards;
+  }
+  
   .sub-menu::after{
     content: "";
     width: 100%;
@@ -227,7 +245,7 @@ const session = await getSession(Astro.request);
     display: inline-block;
     position: relative;
     color: #ebff6d;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     cursor: pointer;
     text-transform: uppercase;
@@ -238,7 +256,7 @@ const session = await getSession(Astro.request);
     display: inline-block;
     position: relative;
     color: #ebff6d;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     cursor: pointer;
     text-transform: uppercase;
@@ -300,4 +318,21 @@ const session = await getSession(Astro.request);
     flex-basis: 0;
     gap: 2rem;
   }
+
+  @keyframes fadeOut {
+    to{
+      display: none;
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    0%{
+      opacity: 0;
+    }
+    100%{
+      opacity: 1;
+    }
+  }
+  
 </style>
