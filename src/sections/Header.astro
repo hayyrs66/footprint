@@ -17,13 +17,14 @@ const session = await getSession(Astro.request);
 
     {
       session && (
-        <nav class="menu">
+        <nav class="menu" id="menu">
         <a
           href="
           "
-          class="link"
+          class="profile-link"
+          id="profile"
         >
-          Perfil
+          PERFIL
         </a>
         <div class="sub-menu">
           <div class="grid-1">
@@ -75,6 +76,27 @@ const session = await getSession(Astro.request);
     });
 }
 
+  if (document.getElementById("profile")) {
+  const profile = document.getElementById("profile");
+  const subMenu = document.querySelector(".sub-menu");
+
+  profile.addEventListener("mouseover", () => {
+    subMenu.style.display = "grid";
+  });
+
+  profile.addEventListener("mouseout", () => {
+    subMenu.style.display = "none";
+  });
+
+  subMenu.addEventListener("mouseover", () => {
+    subMenu.style.display = "grid"; // Mantener visible el submenú cuando el mouse está sobre él
+  });
+
+  subMenu.addEventListener("mouseout", () => {
+    subMenu.style.display = "none"; // Ocultar el submenú solo cuando el mouse sale tanto del perfil como del submenú
+  });
+  }
+
     
 </script>
 
@@ -97,13 +119,24 @@ const session = await getSession(Astro.request);
     width: 100%;
     height: auto;
     position: absolute;
-    top: calc(100% + 1rem);
+    top: calc(100%);
     left: 0;
     border-radius: 0.4rem;
     padding: 1.5rem 1rem;
     gap: 1rem;
+    margin-top: 1rem;
     border: 1px solid #ebff6d;
     filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.305)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.282));
+    display: none;
+  }
+  .sub-menu::after{
+    content: "";
+    width: 100%;
+    height: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: -1rem;
   }
 
    .grid-1 {
@@ -190,6 +223,17 @@ const session = await getSession(Astro.request);
     color: rgb(255, 61, 61);
   }
 
+  .profile-link{
+    display: inline-block;
+    position: relative;
+    color: #ebff6d;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: -0.03rem;
+    padding-bottom: 0.2rem;
+  }
   .link {
     display: inline-block;
     position: relative;
