@@ -1,3 +1,9 @@
+---
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+---
+
 <header>
   <nav>
     <a href="">Acerca de</a>
@@ -7,9 +13,20 @@
     <h1>nature</h1>
   </a>
   <nav>
-    <a href="">Iniciar sesion</a>
+    <a id="sign-in" href="">Iniciar sesion</a>
   </nav>
 </header>
+
+<script>
+  const { signIn } = await import("auth-astro/client");
+
+  const button = document
+    .getElementById("sign-in")
+    .addEventListener("click", async (e) => {
+      e.preventDefault();
+      await signIn("google", { callbackUrl: "/" });
+    });
+</script>
 
 <style>
   a {
