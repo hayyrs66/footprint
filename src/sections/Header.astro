@@ -8,7 +8,7 @@ const session = await getSession(Astro.request);
   {
     !session ? (
       <nav>
-        <a id="sign-in" href="">
+        <a id="sign-in" href="" class="link">
           Iniciar sesion
         </a>
       </nav>
@@ -17,26 +17,35 @@ const session = await getSession(Astro.request);
         <a
           href="
           "
+          class="link"
         >
           Perfil
         </a>
         <div class="sub-menu">
-          <div>
-            <img src="/public/media/avatar.jpg" alt="" /> 
+          <div class="grid-1">
+            <img src="/public/media/glass.svg" alt="glass" class="glass"/>
+            <img src="/public/media/avatar.jpg" alt="" class="avatar"/> 
+            <h3>Ricardo Guevara</h3>
           </div>
-          <div>
-            <h4>Configuración</h4>
+          <div class="grid-2">
+            <a href="#">
+              <div class="option">
+                <h4>Dashboard</h4>
+                <p>Visualiza las estadísticas de tu huella ecológica.</p>
+              </div>
+              </a>
+            <button>Cerrar sesión</button>
           </div>
         </div>
       </nav>
     )
   }
-  <a class="logo">
+  <a class="logo link">
     <h1>nature</h1>
   </a>
   <nav>
-    <a href="">Acerca de</a>
-    <a href="">Contacto</a>
+    <a href="" class="link">Acerca de</a>
+    <a href="" class="link">Contacto</a>
   </nav>
 </header>
 
@@ -72,25 +81,61 @@ const session = await getSession(Astro.request);
     position: absolute;
     top: calc(100% + 1rem);
     left: 0;
-    border-radius: 0.5rem;
-    padding: 1rem 1rem;
+    border-radius: 0.4rem;
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+    border: 1px solid #ebff6d;
+    filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.305)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.282));
   }
 
-  .sub-menu div:first-child {
+   .grid-1 {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%
     align-items: center;
     background-color: #101309;
-    border-radius: 0.5rem;
+    border-radius: 0.4rem;
+    background: linear-gradient(200deg,  #101309 0%, rgba(255, 255, 255, 0.1) 100%);
+    padding: 1rem;
   }
 
-  .submenu div:last-child {
+ .grid-2 {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  .sub-menu div:first-child img {
+  .option{
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    transition: background-color 100ms cubic-bezier(0.3, 0.2, 0.2, 0.8);
+  }
+  .option:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+   .option h4 {
+     color: #ebff6d;
+     font-size: 16px;
+     font-weight: 500;
+     cursor: pointer;
+     letter-spacing: -0.02rem;
+     padding-bottom: 0.2rem;
+    }
+    
+    .option p {
+      color: #faffd7;
+      font-size: 14px;
+      font-weight: 400;
+      cursor: pointer;
+      letter-spacing: -0.01rem;  
+      line-height: 1.2;
+      margin-top: 0.5rem
+    }
+   .grid-1 .avatar {
     aspect-ratio: 1/1;
     width: 50px;
     height: 50px;
@@ -98,7 +143,31 @@ const session = await getSession(Astro.request);
     display: block;
   }
 
-  a {
+   .grid-1 .glass {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+   .grid-1 h3 {
+    color: #ebff6d;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: -0.02rem;
+    margin-top: 1rem
+  }
+
+  .grid-2 button{
+    all: unset;
+    color: rgb(254, 92, 92);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    padding-left: 0.8rem;
+  }
+
+  .link {
     display: inline-block;
     position: relative;
     color: #ebff6d;
@@ -110,7 +179,7 @@ const session = await getSession(Astro.request);
     padding-bottom: 0.2rem;
   }
 
-  a::before {
+  .link::before {
     content: "";
     position: absolute;
     right: 0;
@@ -121,7 +190,7 @@ const session = await getSession(Astro.request);
     transition: width 0.3s cubic-bezier(0.3, 0.2, 0.2, 0.8);
   }
 
-  a:hover::before {
+  .link:hover::before {
     width: 100%;
     left: 0;
     margin-right: auto;
