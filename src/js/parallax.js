@@ -1,6 +1,5 @@
-import gsap from "gsap";
-
 const parallaxEl = document.querySelectorAll(".parallax");
+const hero = document.querySelector(".hero");
 
 let x = 0,
   y = 0,
@@ -26,3 +25,9 @@ window.addEventListener("mousemove", (e) => {
     }px)) perspective(2300px) translateZ(${z}px)`;
   });
 });
+
+if (window.innerWidth >= 725) {
+  hero.style.maxHeight = `${window.innerWidth * 0.6}px`;
+} else {
+  hero.style.maxHeight = `${window.innerWidth * 1.6}px`;
+}
