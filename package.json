@@ -10,8 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/vercel": "^7.4.0",
+    "@auth/core": "^0.18.6",
     "@fontsource-variable/inter": "^5.0.17",
     "astro": "^4.5.9",
+    "auth-astro": "^4.1.1",
     "gsap": "^3.12.5"
   }
 }
