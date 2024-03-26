@@ -165,6 +165,12 @@ const session = await getSession(Astro.request);
     font-weight: 600;
     cursor: pointer;
     padding-left: 0.8rem;
+    width: fit-content;
+    transition: color 100ms cubic-bezier(0.3, 0.2, 0.2, 0.8);
+  }
+
+  .grid-2 button:hover{
+    color: rgb(255, 61, 61);
   }
 
   .link {
