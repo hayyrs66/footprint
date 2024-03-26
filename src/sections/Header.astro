@@ -6,14 +6,18 @@ const session = await getSession(Astro.request);
 
 <header>
   {
-    !session ? (
+    !session && (
       <nav>
         <a id="sign-in" href="" class="link">
           Iniciar sesion
         </a>
       </nav>
-    ) : (
-      <nav class="menu">
+    )
+    }
+
+    {
+      session && (
+        <nav class="menu">
         <a
           href="
           "
@@ -34,12 +38,13 @@ const session = await getSession(Astro.request);
                 <p>Visualiza las estadísticas de tu huella ecológica.</p>
               </div>
               </a>
-            <button>Cerrar sesión</button>
+            <button id="logout">Cerrar sesión</button>
           </div>
         </div>
       </nav>
-    )
-  }
+      )
+    }
+  
   <a class="logo link">
     <h1>nature</h1>
   </a>
@@ -50,14 +55,27 @@ const session = await getSession(Astro.request);
 </header>
 
 <script>
-  const { signIn } = await import("auth-astro/client");
 
-  const button = document
+  const { signIn, signOut } = await import("auth-astro/client");
+
+  if (document.getElementById("sign-in")){
+
+    document
     .getElementById("sign-in")
     .addEventListener("click", async (e) => {
       e.preventDefault();
       await signIn("google", { callbackUrl: "/" });
     });
+    
+  }
+
+    if (document.getElementById("logout")) {  // Check if the element exists
+   document.getElementById("logout").addEventListener("click", async () => {
+    await signOut({ callbackUrl: "/" });
+    });
+}
+
+    
 </script>
 
 <style>
@@ -216,6 +234,16 @@ const session = await getSession(Astro.request);
     top: 0;
     left: 0;
     z-index: 100;
+  }
+  nav:first-child {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    gap: 2rem;
   }
 
   nav:last-child {
