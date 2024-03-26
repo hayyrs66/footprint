@@ -5,15 +5,38 @@ const session = await getSession(Astro.request);
 ---
 
 <header>
-  <nav>
-    <a href="">Acerca de</a>
-    <a href="">Contacto</a>
-  </nav>
+  {
+    !session ? (
+      <nav>
+        <a id="sign-in" href="">
+          Iniciar sesion
+        </a>
+      </nav>
+    ) : (
+      <nav class="menu">
+        <a
+          href="
+          "
+        >
+          Perfil
+        </a>
+        <div class="sub-menu">
+          <div>
+            <img src="/public/media/avatar.jpg" alt="" /> 
+          </div>
+          <div>
+            <h4>Configuración</h4>
+          </div>
+        </div>
+      </nav>
+    )
+  }
   <a class="logo">
     <h1>nature</h1>
   </a>
   <nav>
-    <a id="sign-in" href="">Iniciar sesion</a>
+    <a href="">Acerca de</a>
+    <a href="">Contacto</a>
   </nav>
 </header>
 
@@ -29,6 +52,52 @@ const session = await getSession(Astro.request);
 </script>
 
 <style>
+  .menu {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    gap: 1rem;
+    position: relative;
+  }
+  .sub-menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background-color: #101309;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 0;
+    border-radius: 0.5rem;
+    padding: 1rem 1rem;
+  }
+
+  .sub-menu div:first-child {
+    display: flex;
+    width: 100%;
+    height: 100%
+    align-items: center;
+    background-color: #101309;
+    border-radius: 0.5rem;
+  }
+
+  .submenu div:last-child {
+    width: 100%;
+    height: 100%;
+  }
+
+  .sub-menu div:first-child img {
+    aspect-ratio: 1/1;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: block;
+  }
+
   a {
     display: inline-block;
     position: relative;
@@ -75,20 +144,14 @@ const session = await getSession(Astro.request);
     z-index: 100;
   }
 
-  nav:first-child {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-grow: 1;
-    flex-basis: 0;
-    gap: 2rem;
-  }
   nav:last-child {
     display: flex;
+    width: 100%;
+    height: 100%;
     justify-content: flex-end;
     align-items: center;
     flex-grow: 1;
     flex-basis: 0;
-    gap: 1rem;
+    gap: 2rem;
   }
 </style>
