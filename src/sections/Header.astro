@@ -28,9 +28,9 @@ const session = await getSession(Astro.request);
         </a>
         <div class="sub-menu">
           <div class="grid-1">
-            <img src="/public/media/glass.svg" alt="glass" class="glass"/>
-            <img src="/public/media/avatar.jpg" alt="" class="avatar"/> 
-            <h3>Ricardo Guevara</h3>
+            <img src="/glass.svg" alt="glass" class="glass"/>
+            <img src={session.user.image} alt="" class="avatar"/> 
+            <h3>{session.user.name}</h3>
           </div>
           <div class="grid-2">
             <a href="#">
