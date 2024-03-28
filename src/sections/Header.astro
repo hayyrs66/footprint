@@ -2,6 +2,8 @@
 import { getSession } from "auth-astro/server";
 
 const session = await getSession(Astro.request);
+
+
 ---
 
 <header>
@@ -78,7 +80,7 @@ const session = await getSession(Astro.request);
 
   if (document.getElementById("profile")) {
   const profile = document.getElementById("profile");
-  const subMenu = document.querySelector(".sub-menu");
+  const subMenu = document.querySelector(".sub-menu") as HTMLElement;
 
   profile.addEventListener("mouseover", () => {
     subMenu.style.display = "grid";
