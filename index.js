@@ -80,40 +80,40 @@ async function authorize() {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 
-async function listMessages(auth) {
+async function calculateTotalSize(auth) {
   const gmail = google.gmail({ version: "v1", auth });
-  const res = await gmail.users.messages.list({
-    userId: "me",
-  });
-  const messages = res.data.messages;
-  if (!messages || messages.length === 0) {
-    console.log("No messages found.");
-    return;
-  }
-  console.log("Messages:");
-  for (const message of messages) {
-    const messageInfo = await gmail.users.messages.get({
+  let nextPageToken;
+  let totalMessages = 0;
+  let totalSize = 0;
+  let pageCount = 0;
+
+  do {
+    const res = await gmail.users.messages.list({
       userId: "me",
-      id: message.id,
+      maxResults: 100,
+      pageToken: nextPageToken,
     });
-    console.log("- Message ID:", message.id);
-    console.log(
-      "  Subject:",
-      messageInfo.data.payload.headers.find(
-        (header) => header.name === "Subject"
-      ).value
-    );
-    console.log(
-      "  From:",
-      messageInfo.data.payload.headers.find((header) => header.name === "From")
-        .value
-    );
-    console.log(
-      "  Date:",
-      messageInfo.data.payload.headers.find((header) => header.name === "Date")
-        .value
-    );
-  }
+
+    const messages = res.data.messages;
+    if (!messages || messages.length === 0) {
+      console.log("No messages found.");
+      return;
+    }
+
+    console.log(messages.length);
+
+    for (const message of messages) {
+      const messageInfo = await gmail.users.messages.get({
+        userId: "me",
+        id: message.id,
+      });
+      totalSize += messageInfo.data.sizeEstimate;
+      console.log("- Total size of message:", totalSize, "bytes");
+    }
+
+    nextPageToken = res.data.nextPageToken;
+    pageCount++;
+  } while (nextPageToken);
 }
 
-authorize().then(listMessages).catch(console.error);
+authorize().then(calculateTotalSize).catch(console.error);
