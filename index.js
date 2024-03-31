@@ -92,6 +92,7 @@ async function calculateTotalSize(auth) {
       userId: "me",
       maxResults: 100,
       pageToken: nextPageToken,
+      fields: "nextPageToken,messages(id,sizeEstimate)",
     });
 
     const messages = res.data.messages;
