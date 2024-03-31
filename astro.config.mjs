@@ -8,4 +8,13 @@ export default defineConfig({
   integrations: [auth()],
   output: "server",
   adapter: vercel(),
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          entryFileNames: "[name]-[hash].js",
+        },
+      },
+    },
+  },
 });
