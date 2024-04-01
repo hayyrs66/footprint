@@ -9,7 +9,7 @@ const session = await getSession(Astro.request);
 <header>
   {
     !session && (
-      <nav>
+      <nav class="nav">
         <a id="sign-in" href="" class="link">
           Iniciar sesion
         </a>
@@ -19,7 +19,7 @@ const session = await getSession(Astro.request);
 
     {
       session && (
-        <nav class="menu" id="menu">
+        <nav class="menu nav" id="menu">
         <a
           href="
           "
@@ -51,7 +51,7 @@ const session = await getSession(Astro.request);
   <a class="logo link">
     <h1>nature</h1>
   </a>
-  <nav>
+  <nav class="nav-2">
     <a href="" class="link">Acerca de</a>
     <a href="" class="link">Contacto</a>
   </nav>
