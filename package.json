@@ -16,6 +16,7 @@
     "@google-cloud/local-auth": "^2.1.0",
     "astro": "^4.5.9",
     "auth-astro": "^4.1.1",
+    "express": "^4.19.2",
     "googleapis": "^105.0.0",
     "gsap": "^3.12.5"
   }
