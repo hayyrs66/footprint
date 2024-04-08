@@ -1,4 +1,3 @@
-User
 import fs from 'fs/promises';
 import path from 'path';
 import process from 'process';
@@ -85,3 +84,4 @@ async function listFiles(authClient) {
 }
 
 authorize().then(listFiles).catch(console.error);
+
