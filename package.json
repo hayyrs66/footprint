@@ -17,6 +17,7 @@
     "@fontsource-variable/inter": "^5.0.17",
     "@google-cloud/local-auth": "^2.1.0",
     "astro": "^4.5.9",
+    "astro-icon": "^1.1.0",
     "auth-astro": "^4.1.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
@@ -29,7 +30,7 @@
     "@types/node": "^20.12.2",
     "standard": "^17.1.0"
   },
-  
   "eslintConfig": {
-    "extends": "standard"}
+    "extends": "standard"
+  }
 }
