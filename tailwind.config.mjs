@@ -4,7 +4,18 @@ export default {
 	theme: {
 		extend: {
 			backgroundImage: {
-				'hero': "url('/nature.jpg')",
+				'hero': "url('/nature-2.jpg')",
+			},
+
+			animation: {
+				'arrow-animation': 'arrow 2s cubic-bezier(.47,.23,.6,.88) infinite',
+			},
+			keyframes: {
+				arrow: {
+					'0%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-15px)' },
+					'100%': { transform: 'translateY(0)' },
+				},
 			},
 		},
 	},
