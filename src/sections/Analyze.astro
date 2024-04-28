@@ -21,7 +21,7 @@
   document
     .getElementById("request-button")
     .addEventListener("click", async function () {
-      const response = await fetch("http://localhost:3000/");
+      const response = await fetch("http://localhost:3000/drive");
       const data = await response.json();
 
       console.log(data)
