@@ -1,213 +1,28 @@
 ---
-
 ---
 
-<section class="hero">
-  <div class="vignette"></div>
-  <div class="mask"></div>
-  <!-- <img
-    src="/parallax/mountain-1.png"
-    alt=""
-    class="mountain mnt-1 parallax"
-    data-speedx="0.0002"
-    data-speedy="0.005"
-    data-distance="100"
-  />
-  <img
-    src="/parallax/mountain-2.png"
-    alt=""
-    class="mountain mnt-2 parallax"
-    data-speedx="0.001"
-    data-speedy="0.009"
-    data-distance="150"
-  />
-  <img
-    src="/parallax/mountain-3.png"
-    alt=""
-    class="mountain mnt-3 parallax"
-    data-speedx="0.005"
-    data-speedy="0.01"
-    data-distance="200"
-  />
-  <img
-    src="/parallax/mountain-4.png"
-    alt=""
-    class="mountain mnt-4 parallax"
-    data-speedx="0.01"
-    data-speedy="0.02"
-    data-distance="250"
-  /> -->
-  <div class="text parallax" data-speedx="0.0001" data-speedy="0.0001">
-    <h2>ES HORA DE CUIDAR NUESTRA</h2>
-    <h2>NATURALEZA</h2>
-  </div>
-  <!-- <img
-    src="/parallax/mountain-5.png"
-    alt=""
-    class="mountain mnt-5 parallax"
-    data-speedx="0.02"
-    data-speedy="0.05"
-    data-distance="300"
-  />
-  <img
-    src="/parallax/mountain-6.png"
-    alt=""
-    class="mountain mnt-6 parallax"
-    data-speedx="0.05"
-    data-speedy="0.09"
-    data-distance="350"
-  />
-  <img
-    src="/parallax/fog.avif"
-    alt=""
-    class="fog parallax"
-    data-speedx="0.09"
-    data-speedy="0.1"
-    data-distance="400"
-  /> -->
+<section class="bg-hero w-full h-screen bg-no-repeat bg-cover bg-center relative">
+    <div class="grid grid-cols-2 w-full h-full">
+        <aside class="flex flex-col min-w-[600px] bg-[#101309]/20 backdrop-blur-lg w-fit h-full justify-between items-start p-[4rem]">
+            <div class="w-full h-full flex justify-end items-center">
+                <h2 class="text-[10rem] text-white tracking-[-0.8rem] leading-[0.8] ">Make it Green</h2>
+            </div>
+            <div>
+                <div class="flex justify-start items-center gap-5">
+                    <!-- <img src="/star-title.svg" alt="star" width="30" height="30" class="text-white opacity-40"> -->
+                    <span class="text-white/50 font-bold text-[2rem]">01</span>
+                    <h1 class="text-[2rem] text-white/70 tracking-tighter font-semibold">Calcula tu huella </h1>
+                </div>
+                <div class="flex gap-x-16">
+                    <div class=""/>
+                    <p class="max-w-[382px] text-balance text-sm text-slate-300 tracking-tight">
+                        Hagamos un mundo digital consciente.
+                    </p>
+                </div>
+            </div>
+        </aside>
+        <div class="w-full h-full flex justify-start items-center">
+
+        </div>
+    </div>
 </section>
-
-<script>
-//   const parallaxEl = document.querySelectorAll(".parallax");
-// const hero = document.querySelector(".hero");
-
-// let x = 0,
-//   y = 0,
-//   z = 0;
-
-// window.addEventListener("mousemove", (e) => {
-//   x = e.clientX - window.innerWidth / 2;
-//   y = e.clientY - window.innerHeight / 2;
-
-//   parallaxEl.forEach((item) => {
-//     let speedX = item.dataset.speedx;
-//     let speedY = item.dataset.speedy;
-
-//     let isInLeft =
-//       parseFloat(getComputedStyle(item).left) < window.innerWidth / 2 ? 1 : -1;
-
-//     z = (e.clientX - parseFloat(getComputedStyle(item).left)) * isInLeft * 0.1;
-
-//     item.style.transform = `translateX(calc(-50% + ${
-//       -x * speedX
-//     }px)) translateY(calc(-50% + ${
-//       y * speedY
-//     }px)) perspective(2300px) translateZ(${z}px)`;
-//   });
-// });
-
-// if (window.innerWidth >= 725) {
-//   hero.style.maxHeight = `${window.innerWidth * 0.6}px`;
-// } else {
-//   hero.style.maxHeight = `${window.innerWidth * 1.6}px`;
-// }
-
-</script>
-
-<style>
-  section {
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    background-color: #101309;
-    background-size: cover;
-    background-position: center;
-    background-image: url("/nature-3.jpg");
-  }
-
-  .fog {
-    position: absolute;
-    width: initial;
-    height: 288.88%;
-    top: 50%;
-    left: 50%;
-    z-index: 7;
-  }
-
-  .mountain {
-    position: absolute;
-    width: initial;
-    height: 177.776%;
-    top: calc(50%);
-    left: calc(50%);
-  }
-
-  /* .mnt-5 {
-    width: 107.64%;
-  }
-  .mnt-6 {
-    width: 111.11%;
-  } */
-
-  section img:nth-of-type(1) {
-    z-index: 6;
-  }
-  section img:nth-of-type(2) {
-    z-index: 5;
-  }
-  section img:nth-of-type(3) {
-    z-index: 4;
-  }
-  section img:nth-of-type(4) {
-    z-index: 3;
-  }
-  section img:nth-of-type(5) {
-    z-index: 2;
-  }
-  section img:nth-of-type(6) {
-    z-index: 1;
-  }
-  .text {
-    position: absolute;
-    top: calc(50% - 70px);
-    left: 50%;
-    text-align: center;
-    color: #ebff6d;
-    z-index: 3;
-    transform: translate(-50%, -50%);
-  }
-
-  .text h2:first-child {
-    font-size: 2rem;
-    text-wrap: nowrap;
-    font-weight: 200;
-    line-height: 0.88;
-    letter-spacing: -0.1rem;
-  }
-
-  .text h2:last-child {
-    font-size: 7rem;
-    font-weight: 500;
-    line-height: 0.88;
-    letter-spacing: -0.2rem;
-  }
-  .vignette {
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(0, 0, 0, 0) 65%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
-  }
-
-  .parallax {
-    pointer-events: none;
-  }
-  .mask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: calc(50%);
-    left: calc(50%);
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    background-color: #101309;
-    mask-image: linear-gradient(to bottom, transparent 50%, #101309 95%);
-  }
-</style>
