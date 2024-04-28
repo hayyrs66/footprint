@@ -5,7 +5,7 @@
 <section class="hero">
   <div class="vignette"></div>
   <div class="mask"></div>
-  <img
+  <!-- <img
     src="/parallax/mountain-1.png"
     alt=""
     class="mountain mnt-1 parallax"
@@ -36,12 +36,12 @@
     data-speedx="0.01"
     data-speedy="0.02"
     data-distance="250"
-  />
+  /> -->
   <div class="text parallax" data-speedx="0.0001" data-speedy="0.0001">
     <h2>ES HORA DE CUIDAR NUESTRA</h2>
     <h2>NATURALEZA</h2>
   </div>
-  <img
+  <!-- <img
     src="/parallax/mountain-5.png"
     alt=""
     class="mountain mnt-5 parallax"
@@ -64,10 +64,45 @@
     data-speedx="0.09"
     data-speedy="0.1"
     data-distance="400"
-  />
+  /> -->
 </section>
 
-<script src="../js/parallax.js"></script>
+<script>
+//   const parallaxEl = document.querySelectorAll(".parallax");
+// const hero = document.querySelector(".hero");
+
+// let x = 0,
+//   y = 0,
+//   z = 0;
+
+// window.addEventListener("mousemove", (e) => {
+//   x = e.clientX - window.innerWidth / 2;
+//   y = e.clientY - window.innerHeight / 2;
+
+//   parallaxEl.forEach((item) => {
+//     let speedX = item.dataset.speedx;
+//     let speedY = item.dataset.speedy;
+
+//     let isInLeft =
+//       parseFloat(getComputedStyle(item).left) < window.innerWidth / 2 ? 1 : -1;
+
+//     z = (e.clientX - parseFloat(getComputedStyle(item).left)) * isInLeft * 0.1;
+
+//     item.style.transform = `translateX(calc(-50% + ${
+//       -x * speedX
+//     }px)) translateY(calc(-50% + ${
+//       y * speedY
+//     }px)) perspective(2300px) translateZ(${z}px)`;
+//   });
+// });
+
+// if (window.innerWidth >= 725) {
+//   hero.style.maxHeight = `${window.innerWidth * 0.6}px`;
+// } else {
+//   hero.style.maxHeight = `${window.innerWidth * 1.6}px`;
+// }
+
+</script>
 
 <style>
   section {
@@ -75,9 +110,10 @@
     height: 100vh;
     overflow: hidden;
     position: relative;
-    background-image: url("/parallax/background.avif");
+    background-color: #101309;
     background-size: cover;
     background-position: center;
+    background-image: url("/nature-3.jpg");
   }
 
   .fog {
@@ -156,7 +192,7 @@
     background: radial-gradient(
       ellipse at center,
       rgba(0, 0, 0, 0) 65%,
-      rgba(0, 0, 0, 0.7)
+      rgba(0, 0, 0, 0.7) 100%
     );
   }
 
