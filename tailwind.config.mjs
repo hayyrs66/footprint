@@ -9,6 +9,7 @@ export default {
 
 			animation: {
 				'arrow-animation': 'arrow 2s cubic-bezier(.47,.23,.6,.88) infinite',
+				'spin': 'spin 20s linear infinite',
 			},
 			keyframes: {
 				arrow: {
@@ -16,6 +17,9 @@ export default {
 					'50%': { transform: 'translateY(-15px)' },
 					'100%': { transform: 'translateY(0)' },
 				},
+			},
+			colors: {
+				'primary': '#EBFF6D',
 			},
 		},
 	},
