@@ -1,28 +1,71 @@
 ---
+
 ---
 
-<section class="bg-hero w-full h-screen bg-no-repeat bg-cover bg-center relative">
-    <div class="grid grid-cols-2 w-full h-full">
-        <aside class="flex flex-col min-w-[600px] bg-[#101309]/20 backdrop-blur-lg w-fit h-full justify-between items-start p-[4rem]">
-            <div class="w-full h-full flex justify-end items-center">
-                <h2 class="text-[10rem] text-white tracking-[-0.8rem] leading-[0.8] ">Make it Green</h2>
-            </div>
-            <div>
-                <div class="flex justify-start items-center gap-5">
-                    <!-- <img src="/star-title.svg" alt="star" width="30" height="30" class="text-white opacity-40"> -->
-                    <span class="text-white/50 font-bold text-[2rem]">01</span>
-                    <h1 class="text-[2rem] text-white/70 tracking-tighter font-semibold">Calcula tu huella </h1>
-                </div>
-                <div class="flex gap-x-16">
-                    <div class=""/>
-                    <p class="max-w-[382px] text-balance text-sm text-slate-300 tracking-tight">
-                        Hagamos un mundo digital consciente.
-                    </p>
-                </div>
-            </div>
-        </aside>
-        <div class="w-full h-full flex justify-start items-center">
-
-        </div>
+<section
+  class="bg-hero w-full h-screen bg-no-repeat bg-cover bg-center relative"
+>
+  <!-- Overlapping effects -->
+  <div class="vignette"></div>
+  <div class="mask"></div>
+  <!-- Main Grid Two Sections Container -->
+  <div class="grid grid-cols-2 w-full h-full">
+    <!-- First section grid -->
+    <aside
+      class="flex flex-col min-w-[600px] bg-[#101309]/20 backdrop-blur-lg w-fit h-full justify-between items-start p-[4rem]"
+    >
+      <div class="w-full h-full flex justify-end items-center z-[5]">
+        <h2 class="text-[10rem] text-white tracking-[-0.8rem] leading-[0.8]">
+          Make it <span class="text-[#EBFF6D]">Green</span>
+        </h2>
+      </div>
+    </aside>
+    <!-- Second section grid -->
+    <div
+      class="w-full h-full flex flex-col justify-end items-start z-10 p-[4rem]"
+    >
+      <div class="flex justify-start items-center gap-5">
+        <span class="text-white/50 font-bold text-[2rem]">01</span>
+        <h1 class="text-[2rem] text-white/70 tracking-tighter font-semibold">
+          Calculate your footprint.
+        </h1>
+      </div>
+      <div class="flex gap-x-16">
+        <div class=""></div>
+        <p
+          class="max-w-[382px] text-balance text-sm text-slate-300 tracking-tight"
+        >
+          Let's create a mindful digital world. Calculate your carbon footprint
+          and learn how to reduce it.
+        </p>
+      </div>
     </div>
+  </div>
+  <!-- {END} Main Grid Two Sections Container -->
 </section>
+
+<style>
+  .vignette {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 45%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+  }
+
+  .mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: calc(50%);
+    left: calc(50%);
+    transform: translate(-50%, -50%);
+    background-color: #101309;
+    mask-image: linear-gradient(to bottom, transparent 50%, #101309 95%);
+  }
+</style>
