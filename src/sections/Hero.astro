@@ -1,7 +1,13 @@
+---
+import AlertDialog from "../components/AlertDialog.astro";
+
+---
+
 <section
   class="bg-hero w-full h-screen bg-no-repeat bg-cover bg-center relative"
 >
   <!-- Overlapping effects -->
+  <AlertDialog />
   <div class="vignette"></div>
   <div class="mask"></div>
   <!-- Main Grid Two Sections Container -->
@@ -10,9 +16,18 @@
     <aside
       class="flex flex-col min-w-[600px] bg-[#101309]/20 backdrop-blur-lg w-fit h-full justify-between items-start p-[4rem]"
     >
-      <div class="w-full h-full flex justify-end items-center z-[5]">
-        <h2 class="text-[10rem] text-white tracking-[-0.8rem] leading-[0.8]">
-          Make it <span class="text-primary">Green</span>
+      <div class="w-full h-full flex justify-start items-center z-[5]">
+        <h2 class="text-[8rem] text-white tracking-[-0.8rem] leading-[0.8]">
+          Make it
+          <div class="flex w-full h-auto justify-end items-center">
+            <img
+              src="src/icons/globe.svg"
+              width={80}
+              height={80}
+              class="animate-spin"
+            />
+            <span class="text-primary">Green</span>
+          </div>
         </h2>
       </div>
     </aside>
@@ -23,7 +38,7 @@
       <!-- Gap Div -->
       <div></div>
       <!-- Calculate button -->
-      <button class="w-full h-auto outline-none">
+      <button class="button-calculate w-full h-auto outline-none">
         <div
           class="flex justify-center items-center custom-border w-full h-[220px] p-[0.5rem] z-[2] cursor-default"
         >
@@ -58,6 +73,21 @@
   </div>
   <!-- {END} Main Grid Two Sections Container -->
 </section>
+
+<script>
+  let finalData = null;
+
+  document
+    .querySelector(".button-calculate")
+    .addEventListener("click", async function () {
+      const response = await fetch("http://localhost:3001/drive");
+      response.json().then((fetchData) => {
+        console.log(Astro.response)
+      });
+    });
+</script>
+
+</script>
 
 <style>
   .vignette {
