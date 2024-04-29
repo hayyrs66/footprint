@@ -1,0 +1,75 @@
+<dialog
+  id="dialog"
+  class="fixed backdrop:bg-black/80 transition-opacity top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#08090A] rounded-md p-[2rem] outline outline-[0.7px] outline-gray-600"
+>
+  <div class="flex flex-col">
+    <h4 class="text-white text-xl font-semibold tracking-tighter">You will log in with Google.</h4>
+    <p class="text-gray-400 text-sm text-balance mt-5 ">
+      We will have access to the amount of space used in your basic Google
+      services. We do not access personal data. We will store this information
+      for statistical purposes.
+    </p>
+  </div>
+  <div class="w-full h-auto flex justify-end items-center mt-5 gap-2">
+      <button class="close bg-[#09080A] border border-gray-800 px-5 py-1 rounded-md text-white tracking-tighter font-medium
+      hover:bg-gray-800">Cancel</button>
+      <button class="continue bg-white text-black border border-gray-800 px-5 py-1 rounded-md tracking-tighter font-medium
+      hover:bg-white/80">Continue</button>
+  </div>
+</dialog>
+
+<script>
+  const dialogElem = document.getElementById("dialog") as HTMLDialogElement;
+  const showBtn = document.querySelector(".button-calculate");
+  const closeBtn = document.querySelector(".close");
+
+  showBtn.addEventListener("click", () => {
+    dialogElem.showModal();
+  });
+
+  closeBtn.addEventListener("click", () => {
+    dialogElem.close();
+  });
+
+  document.querySelector(".continue").addEventListener("click", () => {
+    dialogElem.close();
+  });
+  
+</script>
+
+<style>
+  dialog {
+    z-index: 20;
+    animation: fade-out 200ms ease-out;
+  }
+
+  dialog[open] {
+    animation: fade-in 200ms ease-out;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      display: none;
+    }
+
+    100% {
+      opacity: 1;
+      display: block;
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      display: block;
+    }
+
+    100% {
+      opacity: 0;
+      display: none;
+    }
+  }
+
+
+</style>
