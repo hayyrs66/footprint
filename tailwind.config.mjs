@@ -9,7 +9,7 @@ export default {
 
 			animation: {
 				'arrow-animation': 'arrow 2s cubic-bezier(.47,.23,.6,.88) infinite',
-				'spin': 'spin 20s linear infinite',
+				'spin': 'spin 40s linear infinite',
 			},
 			keyframes: {
 				arrow: {
