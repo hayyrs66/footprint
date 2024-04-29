@@ -11,7 +11,7 @@ export default defineConfig({
   integrations: [auth(), tailwind(), icon()],
   output: "server",
   adapter: node({
-    mode: "middleware"
+    mode: "standalone"
   }),
   vite: {
     build: {
