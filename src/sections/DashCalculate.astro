@@ -1,40 +1,59 @@
 ---
 import Loader from "../components/Loader.astro";
-
 ---
 
 <section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
-    <Loader />
-    <div>
-        <h1 class="text-primary text-6xl tracking-tighter font-medium title-text">
-        </h1>
-    </div>
-  <p class="text-white font-medium text-xl">There your have your results.</p>
+  <Loader />
+  <div class="flex gap-5">
+    <h1 class="text-primary text-6xl tracking-tighter font-medium title-text">
+    </h1>
+    <img class="picture rounded-full" alt="user profile picture">
+  </div>
+  <p class="text-white font-medium text-xl tracking-tighter">There your have your results.</p>
+
+  <div class="mt-[2rem]">
+    <h2 class="text-white font-medium text-2xl mt-5">Storage Quota</h2>
+
+    <p class="text-white font-medium text-lg tracking-tighter storageContainer"></p>
+
+    <p class="text-white font-medium text-lg tracking-tighter">Tu huella de carbono es: <span class="footprintContainer text-primary"></span></p>
+    
+  </div>
+  
 </section>
 
 <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const loader = document.querySelector(".loader") as HTMLDivElement;
+    const titleText = document.querySelector(
+      ".title-text"
+    ) as HTMLHeadingElement;
+    const imagePicture = document.querySelector(".picture") as HTMLImageElement;
+    const storageContainer = document.querySelector(".storageContainer") as HTMLParagraphElement;
+    const footprintContainer = document.querySelector(".footprintContainer") as HTMLSpanElement;
 
-    
-    document.addEventListener('DOMContentLoaded', async () => {
-        const loader = document.querySelector('.loader') as HTMLDivElement;
-        const titleText = document.querySelector('.title-text') as HTMLHeadingElement;
+    try {
+      const url = new URL(window.location.href);
+      const fetchData = url.searchParams.get("fetchData");
+      if (fetchData === "true") {
+        const response = await fetch("http://localhost:3001/drive");
+        const data = await response.json();
+
+        const name = data.user.displayName;
+        const picture = data.user.photoLink;
+        const storageQuota = parseInt(data.storageQuota.usage) / 1204 / 1024 / 1024;
         
-        try{
-            const res = await fetch("http://localhost:3001/drive");
-            const data = await res.json();
-            
-            const name = data.user.displayName;
+        let footprint = storageQuota * 0.8;
 
-            titleText.textContent = `Hello ${name}!`;
-            
+        titleText.textContent = `Hello, ${name}`;
+        imagePicture.src = picture;
+        storageContainer.textContent = `You have used ${storageQuota.toFixed(2)} GB of your storage quota.`;
+        footprintContainer.textContent = `${footprint.toFixed(2)} gCO2e`;
 
-            loader.style.display = 'none';
-            
-        }catch(err){
-            console.log(err);
-        }
-
-    });
-    
-
+        loader.style.display = "none";
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
 </script>
