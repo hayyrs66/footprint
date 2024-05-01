@@ -20,6 +20,7 @@ export default {
 			},
 			colors: {
 				'primary': '#EBFF6D',
+				'bg-gray': '#08090A',
 			},
 		},
 	},
