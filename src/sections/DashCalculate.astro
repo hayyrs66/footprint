@@ -1,0 +1,40 @@
+---
+import Loader from "../components/Loader.astro";
+
+---
+
+<section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
+    <Loader />
+    <div>
+        <h1 class="text-primary text-6xl tracking-tighter font-medium title-text">
+        </h1>
+    </div>
+  <p class="text-white font-medium text-xl">There your have your results.</p>
+</section>
+
+<script>
+
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+        const loader = document.querySelector('.loader') as HTMLDivElement;
+        const titleText = document.querySelector('.title-text') as HTMLHeadingElement;
+        
+        try{
+            const res = await fetch("http://localhost:3001/drive");
+            const data = await res.json();
+            
+            const name = data.user.displayName;
+
+            titleText.textContent = `Hello ${name}!`;
+            
+
+            loader.style.display = 'none';
+            
+        }catch(err){
+            console.log(err);
+        }
+
+    });
+    
+
+</script>
