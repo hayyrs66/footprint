@@ -1,10 +1,9 @@
 ---
 import { getSession } from "auth-astro/server";
 
-
 const session = await getSession(Astro.request) as any;
 
-if(session){
+async function fetchDriveFiles() {
   try {
     // Obtener la sesión de autenticación
     const token = session.accessToken;
@@ -19,6 +18,7 @@ if(session){
 
       // Manejar la respuesta de la API de Google Drive
       const data = await response.json();
+      console.log(data)
     } else {
       console.error("No se pudo obtener el token de acceso.");
     }
@@ -26,6 +26,10 @@ if(session){
     console.error("Error al acceder a Google Drive:", error);
   }
 }
+
+ if(session){
+   fetchDriveFiles();
+ }
 
 console.log("----------")
 console.log(session)
