@@ -1,23 +1,40 @@
 ---
 import Loader from "../components/Loader.astro";
+import { getSession } from "auth-astro/server";
+import { userData } from "./Header.astro";
+
+const session = await getSession(Astro.request);
+
+const usage = (
+  (userData as { storageQuota: { usage: number } }).storageQuota.usage /
+  1024 /
+  1024 /
+  1024
+).toFixed(2);
+
 ---
 
 <section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
   <!-- <Loader /> -->
   <div class="flex gap-5">
     <h1 class="text-primary text-6xl tracking-tighter font-medium title-text">
+      Hola {session.user.name}!
     </h1>
-    <img class="picture rounded-full" alt="user profile picture">
+    <img src={session.user.image} class="picture rounded-full" alt="user profile picture" />
   </div>
-  <p class="text-white font-medium text-xl tracking-tighter">There your have your results.</p>
+  <p class="text-white font-medium text-xl tracking-tighter">
+    There your have your results.
+  </p>
 
   <div class="mt-[2rem]">
-    <h2 class="text-white font-medium text-2xl mt-5">Storage Quota</h2>
+    <h2 class="text-white font-medium text-2xl mt-5">Your storage usage: {usage} GB</h2>
 
-    <p class="text-white font-medium text-lg tracking-tighter storageContainer"></p>
+    <p class="text-white font-medium text-lg tracking-tighter storageContainer">
+    </p>
 
-    <p class="text-white font-medium text-lg tracking-tighter">Tu huella de carbono es: <span class="footprintContainer text-primary"></span></p>
-    
+    <p class="text-white font-medium text-lg tracking-tighter">
+      Your footprint is: <span class="footprintContainer text-primary"
+      ></span>
+    </p>
   </div>
-  
 </section>
