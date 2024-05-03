@@ -1,5 +1,9 @@
 ---
-import AlertDialog from "../components/AlertDialog.astro";
+import { getSession } from "auth-astro/server";
+import Dialog from "../components/Dialog.astro";
+const session = await getSession(Astro.request);
+
+
 
 ---
 
@@ -7,7 +11,14 @@ import AlertDialog from "../components/AlertDialog.astro";
   class="bg-hero w-full h-screen bg-no-repeat bg-cover bg-center relative"
 >
   <!-- Overlapping effects -->
-  <AlertDialog />
+  {
+    !session && (
+      <Dialog
+        title="You must log in."
+        description="To calculate your carbon footprint, you must log in."
+      />
+    )
+  }
   <div class="vignette"></div>
   <div class="mask"></div>
   <!-- Main Grid Two Sections Container -->
@@ -38,18 +49,19 @@ import AlertDialog from "../components/AlertDialog.astro";
       <!-- Gap Div -->
       <div></div>
       <!-- Calculate button -->
-      <button class="button-calculate w-full h-auto outline-none">
+      <button id="calculate" class="w-full h-auto outline-none"></button>
         <div
           class="flex justify-center items-center custom-border w-full h-[220px] p-[0.5rem] z-[2] cursor-default"
         >
           <div
             class="p-[1rem] backdrop-blur-lg bg-white/10 hover:bg-white/5 hover:text-primary text-white transition-colors rounded-md w-full h-full flex flex-col justify-center items-center cursor-pointer"
           >
-            <span class="font-medium text-5xl tracking-tighter"
-              >Calculate Now</span
-            >
+            <span class="font-medium text-5xl tracking-tighter calculate-span">
+              Calculate Now
+            </span>
           </div>
         </div>
+      </button>
       </button>
       <!-- Footer hero -->
       <div>
@@ -74,20 +86,15 @@ import AlertDialog from "../components/AlertDialog.astro";
   <!-- {END} Main Grid Two Sections Container -->
 </section>
 
-
 <script>
+   const dialog = document.getElementById("alert-dialog") as HTMLDialogElement;
+   const calculateButton = document.getElementById("calculate") as HTMLButtonElement;
 
-  
-  document
-    .getElementById("continue-btn")
-    .addEventListener("click", async function () {
+   if(dialog){
+    calculateButton.onclick = () => dialog.showModal();
+   }
 
-      const url = new URL(window.location.href);
-      url.searchParams.set("fetchData", "true");
-      window.location.href = "/dashboard" + url.search;
-      });
 </script>
-
 <style>
   .vignette {
     position: absolute;
