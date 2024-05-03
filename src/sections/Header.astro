@@ -3,7 +3,6 @@ import { getSession } from "auth-astro/server";
 
 const session = await getSession(Astro.request) as any;
 
-export let userData = {};
 
 async function fetchDriveFiles() {
   try {
@@ -21,8 +20,6 @@ async function fetchDriveFiles() {
       // Manejar la respuesta de la API de Google Drive
       const data = await response.json();
 
-      userData = data;
-      
     } else {
       console.error("No se pudo obtener el token de acceso.");
     }
@@ -30,10 +27,6 @@ async function fetchDriveFiles() {
     console.error("Error al acceder a Google Drive:", error);
   }
 }
-
- if(session){
-   fetchDriveFiles();
- }
 
 ---
 
