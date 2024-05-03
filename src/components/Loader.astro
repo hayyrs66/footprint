@@ -1,0 +1,44 @@
+<div
+  class="w-full h-screen absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center bg-bg-gray z-[120] loader"
+>
+  <div class="loader-animation"></div>
+</div>
+
+<style>
+  .loader-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --height-of-loader-animation: 4px;
+    --loader-animation-color: #ebff6d;
+    width: 130px;
+    height: var(--height-of-loader-animation);
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  .loader-animation::before {
+    content: "";
+    position: absolute;
+    background: var(--loader-animation-color);
+    top: 50%;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-radius: 30px;
+    animation: moving 1s ease-in-out infinite;
+  }
+
+  @keyframes moving {
+    50% {
+      width: 100%;
+    }
+
+    100% {
+      width: 0;
+      right: 0;
+      left: unset;
+    }
+  }
+</style>

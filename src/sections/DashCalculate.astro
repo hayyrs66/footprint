@@ -1,0 +1,32 @@
+---
+import Loader from "../components/Loader.astro";
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+
+---
+
+<section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
+  <!-- <Loader /> -->
+  <div class="flex items-center gap-5">
+    <h1 class="text-primary text-6xl tracking-tighter font-medium title-text">
+      Hello {session.user.name}!
+    </h1>
+    <img src={session.user.image} class="picture rounded-full" width="60" height="60" alt="user profile picture" />
+  </div>
+  <p class="text-white font-medium text-xl tracking-tighter">
+    Here you have the results.
+  </p>
+
+  <div class="mt-[2rem]">
+    <h2 class="text-white font-medium text-2xl mt-5">Your storage usage: <span class="text-primary">example GB</span></h2>
+
+    <p class="text-white font-medium text-lg tracking-tighter storageContainer">
+    </p>
+
+    <p class="text-white font-medium text-2xl tracking-tighter">
+      Your footprint is: <span class="text-primary">example Grams of CO2 per GB</span><span class="footprintContainer text-primary"
+      ></span>
+    </p>
+  </div>
+</section>
