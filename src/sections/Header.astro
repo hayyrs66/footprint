@@ -1,38 +1,15 @@
 ---
 import { getSession } from "auth-astro/server";
 
-const session = await getSession(Astro.request) as any;
-
-
-async function fetchDriveFiles() {
-  try {
-    // Obtener la sesión de autenticación
-    const token = session.accessToken;
-    if (token) {
-      // Construir la solicitud a la API de Google Drive
-      const response = await fetch("https://www.googleapis.com/drive/v3/about?fields=storageQuota", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Manejar la respuesta de la API de Google Drive
-      const data = await response.json();
-
-    } else {
-      console.error("No se pudo obtener el token de acceso.");
-    }
-  } catch (error) {
-    console.error("Error al acceder a Google Drive:", error);
-  }
-}
+const session = (await getSession(Astro.request)) as any;
+import SignInAlert from "../components/SignInAlert.astro";
 
 ---
 
 <header
   class="flex justify-between fixed top-0 left-0 w-full z-50 px-[4rem] py-[1rem]"
 >
+  {!session && <SignInAlert />}
   <div class="flex flex-col">
     <a
       href="/"
@@ -44,11 +21,15 @@ async function fetchDriveFiles() {
   <nav class="flex items-center gap-5">
     {
       session ? (
-        <button class="text-white tracking-tight text-md font-medium cursor-pointer log-out">
-
-        </button>
+        <button
+          id="log-out"
+          class="text-white tracking-tight text-md font-medium cursor-pointer"
+        />
       ) : (
-        <button class="text-white tracking-tight text-md font-medium cursor-pointer sign-in">
+        <button
+          id="sign-in"
+          class="text-white tracking-tight text-md font-medium cursor-pointer"
+        >
           Sign in
         </button>
       )
@@ -72,14 +53,9 @@ async function fetchDriveFiles() {
 </header>
 
 <script>
-  const { signIn, signOut } = await import("auth-astro/client");
+  const { signOut } = await import("auth-astro/client");
 
-  const sigInButton = document.querySelector(".sign-in") as HTMLButtonElement;
-  const logOutButton = document.querySelector(".log-out") as HTMLButtonElement;
-
-  if (sigInButton) {
-    sigInButton.onclick = () => signIn("google");
-  }
+  const logOutButton = document.getElementById("log-out") as HTMLButtonElement;
 
   if (logOutButton) {
     logOutButton.onclick = () => signOut();
