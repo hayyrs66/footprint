@@ -1,5 +1,4 @@
 import { getToken } from "@auth/core/jwt";
-import type { Session } from "@auth/core/types";
 import type { APIRoute } from "astro";
 import type { APIContext } from "astro";
 import { getSession } from "auth-astro/server";
@@ -14,7 +13,7 @@ const res = (
 ): Response => new Response(body, { status, statusText, headers });
 
 export const GET: APIRoute = async ({ params, request }: APIContext) => {
-  const session = (await getSession(request)) as Session;
+  const session = (await getSession(request)) as any;
 
   if (!session || session?.user == null) {
     return res("Unauthorized", { status: 401 });
