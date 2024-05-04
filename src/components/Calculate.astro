@@ -1,0 +1,24 @@
+---
+const { id } = Astro.props;
+---
+
+<button id={id} class="w-full h-auto outline-none">
+  <div
+    class="flex justify-center items-center custom-border w-full h-[220px] p-[0.5rem] z-[2] cursor-default"
+  >
+    <div
+      class="p-[1rem] backdrop-blur-lg bg-white/10 hover:bg-white/5 hover:text-primary text-white transition-colors rounded-md w-full h-full flex flex-col justify-center items-center cursor-pointer"
+    >
+      <span class="font-medium text-5xl tracking-tighter calculate-span">
+        Calculate Now
+      </span>
+    </div>
+  </div>
+</button>
+
+<style>
+  .custom-border {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23EBFF6DFF' stroke-width='3' stroke-dasharray='10%2c 15' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 6px;
+  }
+</style>
