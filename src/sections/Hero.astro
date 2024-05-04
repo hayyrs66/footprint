@@ -1,8 +1,8 @@
 ---
 import { getSession } from "auth-astro/server";
 import Dialog from "../components/Dialog.astro";
+import Calculate from "../components/Calculate.astro";
 const session = await getSession(Astro.request);
-
 ---
 
 <section
@@ -47,20 +47,13 @@ const session = await getSession(Astro.request);
       <!-- Gap Div -->
       <div></div>
       <!-- Calculate button -->
-      <button id="calculate" class="w-full h-auto outline-none"></button>
-        <div
-          class="flex justify-center items-center custom-border w-full h-[220px] p-[0.5rem] z-[2] cursor-default"
-        >
-          <div
-            class="p-[1rem] backdrop-blur-lg bg-white/10 hover:bg-white/5 hover:text-primary text-white transition-colors rounded-md w-full h-full flex flex-col justify-center items-center cursor-pointer"
-          >
-            <span class="font-medium text-5xl tracking-tighter calculate-span">
-              Calculate Now
-            </span>
-          </div>
-        </div>
-      </button>
-      </button>
+      {
+        session ? (
+          <Calculate id="session-calculate" />
+        ) : (
+          <Calculate id="calculate" />
+        )
+      }
       <!-- Footer hero -->
       <div>
         <div class="flex justify-start items-center gap-5">
@@ -85,13 +78,33 @@ const session = await getSession(Astro.request);
 </section>
 
 <script>
-   const dialog = document.getElementById("alert-dialog") as HTMLDialogElement;
-   const calculateButton = document.getElementById("calculate") as HTMLButtonElement;
+  const dialog = document.getElementById("alert-dialog") as HTMLDialogElement;
+  const calculateNoSessionBtn = document.getElementById(
+    "calculate"
+  ) as HTMLButtonElement;
+  const calculateBtn = document.getElementById(
+    "session-calculate"
+  ) as HTMLButtonElement;
 
-   if(dialog){
-    calculateButton.onclick = () => dialog.showModal();
-   }
+  if (dialog) {
+    calculateNoSessionBtn.onclick = () => dialog.showModal();
+  }
 
+  if(calculateBtn){
+    calculateBtn.onclick = () => {
+
+      fetch("api/fetchData").then((res) => {
+        if (res.status === 401) {
+          console.log("You must log in to calculate your carbon footprint.");
+        } else {
+          window.location.href = "/dashboard";
+        }
+      });
+      
+      // window.location.href = "/dashboard";
+    }
+  }
+  
 </script>
 <style>
   .vignette {
@@ -116,10 +129,5 @@ const session = await getSession(Astro.request);
     transform: translate(-50%, -50%);
     background-color: #101309;
     mask-image: linear-gradient(to bottom, transparent 50%, #101309 95%);
-  }
-
-  .custom-border {
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23EBFF6DFF' stroke-width='3' stroke-dasharray='10%2c 15' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-    border-radius: 6px;
   }
 </style>
