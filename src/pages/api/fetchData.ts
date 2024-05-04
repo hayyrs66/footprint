@@ -1,6 +1,6 @@
-import { getToken } from "@auth/core/jwt";
 import type { APIRoute } from "astro";
 import type { APIContext } from "astro";
+import { db, Storage, NOW } from "astro:db";
 import { getSession } from "auth-astro/server";
 
 const res = (
@@ -19,12 +19,9 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
     return res("Unauthorized", { status: 401 });
   }
 
-  const getAccessToken = () => {
-    return session?.accessToken;
-  };
-
   try {
-    const token = getAccessToken();
+    const token = session.user.accessToken;
+    const userId = (session.user.id).toString();
 
     if (token) {
       const response = await fetch(
@@ -36,7 +33,19 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
       );
 
       const data = await response.json();
-      console.log("Data traida correctamente", data);
+
+      const {
+        storageQuota: { usage },
+      } = data;
+
+      const storage = { userId, storage: usage, calculatedAt: NOW };
+
+      console.log("Antes de DB token:", typeof token);
+      console.log("Antes de DB userId:", typeof userId);
+
+      await db.insert(Storage).values(storage);
+
+      return res("Data retrieved correctly", { status: 200 });
     } else {
       console.error("No se pudo obtener el token de acceso.");
     }
@@ -44,5 +53,5 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
     console.error("Error al acceder a Google Drive:", error);
   }
 
-  return res("Hello, world!", { status: 200 });
+  return res("We couldn't retrieve your data.", { status: 400 });
 };
