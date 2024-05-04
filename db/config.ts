@@ -2,7 +2,8 @@ import { column, defineDb } from 'astro:db';
 
 const Storage = {
   columns: {
-    userId: column.text({ primaryKey: true, unique: true }),
+    id: column.number({ primaryKey: true }),
+    userId: column.text(),
     storage: column.number(),
     calculatedAt: column.date()
   }
