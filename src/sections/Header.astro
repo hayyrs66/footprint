@@ -3,7 +3,6 @@ import { getSession } from "auth-astro/server";
 
 const session = (await getSession(Astro.request)) as any;
 import SignInAlert from "../components/SignInAlert.astro";
-
 ---
 
 <header
@@ -19,22 +18,6 @@ import SignInAlert from "../components/SignInAlert.astro";
     </a>
   </div>
   <nav class="flex items-center gap-5">
-    {
-      session ? (
-        <button
-          id="log-out"
-          class="text-white tracking-tight text-md font-medium cursor-pointer">
-            Log out
-          </button>
-      ) : (
-        <button
-          id="sign-in"
-          class="text-white tracking-tight text-md font-medium cursor-pointer"
-        >
-          Sign in
-        </button>
-      )
-    }
     <a
       href="/dashboard"
       class="text-white tracking-tight text-md font-medium cursor-pointer"
@@ -50,6 +33,23 @@ import SignInAlert from "../components/SignInAlert.astro";
       class="text-white tracking-tight text-md font-medium cursor-pointer"
       >Contact</a
     >
+    {
+      session ? (
+        <button
+          id="log-out"
+          class="text-white tracking-tight text-md font-medium cursor-pointer"
+        >
+          Log out
+        </button>
+      ) : (
+        <button
+          id="sign-in"
+          class="text-white tracking-tight text-md font-medium cursor-pointer"
+        >
+          Log in
+        </button>
+      )
+    }
   </nav>
 </header>
 
