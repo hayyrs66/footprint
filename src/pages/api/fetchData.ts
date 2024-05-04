@@ -3,6 +3,8 @@ import type { APIContext } from "astro";
 import { db, Storage, NOW } from "astro:db";
 import { getSession } from "auth-astro/server";
 
+
+
 const res = (
   body: string,
   {
@@ -40,16 +42,7 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
 
       const storage = { userId, storage: usage, calculatedAt: NOW };
 
-      console.log("Antes de DB token:", typeof token);
-      console.log("Antes de DB userId:", typeof userId);
-
-      await db
-        .insert(Storage)
-        .values(storage)
-        .onConflictDoUpdate({
-          target: Storage.userId,
-          set: {userId, storage: usage, calculatedAt: NOW},
-        });
+      await db.insert(Storage).values(storage);
 
       return res("Data retrieved correctly", { status: 200 });
     } else {
