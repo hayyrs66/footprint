@@ -1,8 +1,15 @@
 ---
 import Loader from "../components/Loader.astro";
 import { getSession } from "auth-astro/server";
+import { db, Storage } from "astro:db";
+import { eq } from "astro:db";
 
 const session = await getSession(Astro.request);
+
+const userId = session.user.id;
+
+const userStorageData = await db.select().from(Storage).where(eq(Storage.userId, userId))
+const usage = (userStorageData[0].storage) / 1024 / 1024 / 1024 ;
 
 ---
 
@@ -19,7 +26,7 @@ const session = await getSession(Astro.request);
   </p>
 
   <div class="mt-[2rem]">
-    <h2 class="text-white font-medium text-2xl mt-5">Your storage usage: <span class="text-primary">example GB</span></h2>
+    <h2 class="text-white font-medium text-2xl mt-5">Your storage usage: <span class="text-primary">{usage.toFixed(2)} GB</span></h2>
 
     <p class="text-white font-medium text-lg tracking-tighter storageContainer">
     </p>
