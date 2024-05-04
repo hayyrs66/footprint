@@ -21,7 +21,7 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
 
   try {
     const token = session.user.accessToken;
-    const userId = (session.user.id).toString();
+    const userId = session.user.id.toString();
 
     if (token) {
       const response = await fetch(
@@ -43,7 +43,13 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
       console.log("Antes de DB token:", typeof token);
       console.log("Antes de DB userId:", typeof userId);
 
-      await db.insert(Storage).values(storage);
+      await db
+        .insert(Storage)
+        .values(storage)
+        .onConflictDoUpdate({
+          target: Storage.userId,
+          set: {userId, storage: usage, calculatedAt: NOW},
+        });
 
       return res("Data retrieved correctly", { status: 200 });
     } else {
