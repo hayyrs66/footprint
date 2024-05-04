@@ -1,6 +1,15 @@
-import { defineDb } from 'astro:db';
+import { column, defineDb } from 'astro:db';
 
-// https://astro.build/db/config
+const Storage = {
+  columns: {
+    userId: column.text({ primaryKey: true, unique: true }),
+    storage: column.number(),
+    calculatedAt: column.date()
+  }
+}
+
 export default defineDb({
-  tables: {}
+  tables: {
+    Storage
+  }
 });
