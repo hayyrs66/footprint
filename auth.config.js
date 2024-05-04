@@ -23,7 +23,30 @@ export default defineConfig({
   ],
 
   callbacks: {
-    async session({ session, token, user }) {
+
+    session: ({ session, token }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+        accessToken: token.accessToken,
+      }
+    }),
+
+    jwt: ({ token, account, profile }) => {
+      if (account) {
+        token.accessToken = account.access_token
+      }
+      return token
+    }
+    
+  },
+});
+
+
+/* 
+
+  async session({ session, token, user }) {
       session.accessToken = token.accessToken
       session.user.id = token.sub
       
@@ -37,5 +60,5 @@ export default defineConfig({
       }
       return token
     }
-  },
-});
+
+*/
