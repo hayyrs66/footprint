@@ -8,12 +8,28 @@ const session = await getSession(Astro.request);
 
 const userId = session.user.id;
 
-const userStorageData = await db
+const userStorage = {};
+
+const userDataDb = await db
   .select()
   .from(Storage)
   .where(eq(Storage.userId, userId));
-const usage = userStorageData[0].storage / 1024 / 1024 / 1024;
-const footprint = usage * 0.8;
+
+userDataDb.forEach((data) => {
+  const entry = {
+    time: data.calculatedAt.toISOString().split("T")[0],
+    value: data.storage / 1024 / 1024 / 1024,
+  };
+
+  if (!userStorage[data.userId]) {
+    userStorage[data.userId] = [];
+  }
+
+  userStorage[data.userId].push(entry);
+});
+
+const lastIndex = userStorage[userId].length - 1;
+const footprint = userStorage[userId][lastIndex].value * 0.8;
 ---
 
 <section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
@@ -31,18 +47,67 @@ const footprint = usage * 0.8;
     />
   </div>
   <div>
-    <h2 class="text-white font-medium text-lg mt-2">
-      Your storage usage: <span class="text-primary"
-        >{usage.toFixed(2)} GB</span>
-    </h2>
+    <!-- s -->
 
     <p class="text-white font-medium text-lg tracking-tighter storageContainer">
+      Your storage usage: {userStorage[userId][lastIndex].value.toFixed(2)} GB
     </p>
-
     <p class="text-white font-medium text-lg tracking-tighter">
       Your footprint is: <span class="text-primary"
         >{footprint.toFixed(2)} of CO2 per GB</span
-      ><span class="footprintContainer text-primary"></span>
+      >
     </p>
   </div>
+
+  <div class="w-full h-auto grid grid-cols-2 mt-10 gap-5">
+    <figure id="graph-1"></figure>
+    <figure id="graph-2"></figure>
+  </div>
 </section>
+
+<script>
+  import {
+    ColorType,
+    createChart,
+    type DeepPartial,
+    type TimeChartOptions,
+  } from "lightweight-charts";
+  const graphContainer1 = document.getElementById("graph-1");
+  const graphContainer2 = document.getElementById("graph-2");
+
+  const chart = createChart(graphContainer1, {
+    width: 600,
+    height: 400,
+    layout: {
+      textColor: "#FFFFFF",
+      background: { type: ColorType.Solid, color: "#08090A" },
+    },
+    grid: { vertLines: { color: "#1f1f1f" }, horzLines: { color: "#1f1f1f" } },
+  });
+
+  const data = [
+    { value: 1, time: 1642425322 },
+    { value: 8, time: 1642511722 },
+    { value: 10, time: 1642598122 },
+    { value: 20, time: 1642684522 },
+    { value: 3, time: 1642770922 },
+    { value: 43, time: 1642857322 },
+    { value: 41, time: 1642943722 },
+    { value: 43, time: 1643030122 },
+    { value: 56, time: 1643116522 },
+    { value: 46, time: 1643202922 },
+  ];
+
+  const baselineSeries = chart.addBaselineSeries({
+    baseValue: { type: "price", price: 25 },
+    topLineColor: "#EBFF6D",
+    topFillColor1: "rgba( 235, 255, 109, 0.28)",
+    topFillColor2: "rgba( 38, 166, 154, 0.05)",
+    bottomLineColor: "rgba( 239, 83, 80, 1)",
+    bottomFillColor1: "rgba( 239, 83, 80, 0.05)",
+    bottomFillColor2: "rgba( 239, 83, 80, 0.28)",
+  });
+
+  baselineSeries.setData(data);
+  chart.timeScale().fitContent();
+</script>
