@@ -1,8 +1,13 @@
 ---
 import { getSession } from "auth-astro/server";
+import { retrievedCorrectly } from "./DashCalculate.astro";
+import Dialog from "../components/Dialog.astro";
 
 const session = (await getSession(Astro.request)) as any;
 import SignInAlert from "../components/SignInAlert.astro";
+import { Icon } from "astro-icon/components";
+
+console.log("data traída correctamente?", retrievedCorrectly);
 ---
 
 <header
@@ -12,41 +17,51 @@ import SignInAlert from "../components/SignInAlert.astro";
   <div class="flex flex-col">
     <a
       href="/"
-      class="text-white cursor-pointer tracking-tighter text-2xl font-semibold"
+      class="text-white cursor-pointer tracking-tighter text-xl font-semibold hover:text-primary transition-colors"
     >
       Green Digital
     </a>
   </div>
   <nav class="flex items-center gap-5">
-    <a
-      href="/dashboard"
-      class="text-white tracking-tight text-md font-medium cursor-pointer"
-      >Dashboard</a
-    >
-    <a
-      href=""
-      class="text-white tracking-tight text-md font-medium cursor-pointer"
-      >Github</a
-    >
-    <a
-      href=""
-      class="text-white tracking-tight text-md font-medium cursor-pointer"
-      >Contact</a
-    >
     {
-      session ? (
-        <button
-          id="log-out"
-          class="text-white tracking-tight text-md font-medium cursor-pointer"
-        >
-          Log out
-        </button>
-      ) : (
+      retrievedCorrectly && (
+          <a
+            id="dashboard-btn"
+            href="/dashboard"
+            class="text-white tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
+          >
+            Dashboard
+          </a>
+      )
+    }
+
+    {
+      !session && (
         <button
           id="sign-in"
-          class="text-white tracking-tight text-md font-medium cursor-pointer"
+          class="flex gap-2  justify-center items-center text-white tracking-tight text-sm font-medium cursor-pointer bg-bg-gray/20 px-5 py-1 hover:text-primary transition-colors
+          outline-none border-none rounded-[5px]"
         >
-          Log in
+          Sign in
+          <Icon name="google" width={20} height={20} />
+        </button>
+      )
+    }
+    <a
+      href="https://github.com/hayyrs66/footprint"
+      target="_blank"
+      class="flex justify-center items-center gap-1 text-white tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
+    >
+      Github
+      <Icon name="github" width={20} height={20} />
+    </a>
+    {
+      session && (
+        <button
+          id="log-out"
+          class="text-red-300 bg-bg-gray/20 px-2 py-1 rounded-[5px] tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
+        >
+          Sign out
         </button>
       )
     }
