@@ -35,10 +35,10 @@ export const GET: APIRoute = async ({ params, request }: APIContext) => {
       const data = await response.json();
 
       const {
-        storageQuota: { usage },
+        storageQuota: { usage, limit },
       } = data;
 
-      const storage = { userId, storage: usage, calculatedAt: NOW };
+      const storage = { userId, storage: usage, storageLimit: limit, calculatedAt: NOW };
 
       await db.insert(Storage).values(storage);
 
