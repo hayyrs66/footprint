@@ -17,7 +17,8 @@ const userDataDb = await db
 
 userDataDb.forEach((data) => {
   const entry = {
-    time: data.calculatedAt.toISOString().split("T")[0],
+    // time: data.calculatedAt.toISOString().split("T")[0],
+    time:  new Date(data.calculatedAt).getTime() / 1000,
     value: data.storage / 1024 / 1024 / 1024,
   };
 
@@ -30,6 +31,8 @@ userDataDb.forEach((data) => {
 
 const lastIndex = userStorage[userId].length - 1;
 const footprint = userStorage[userId][lastIndex].value * 0.8;
+
+console.log(userStorage);
 ---
 
 <section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
@@ -47,21 +50,29 @@ const footprint = userStorage[userId][lastIndex].value * 0.8;
     />
   </div>
   <div>
-    <!-- s -->
-
     <p class="text-white font-medium text-lg tracking-tighter storageContainer">
       Your storage usage: {userStorage[userId][lastIndex].value.toFixed(2)} GB
     </p>
     <p class="text-white font-medium text-lg tracking-tighter">
-      Your footprint is: <span class="text-primary"
+      Your footprint is: <span class="text-[#ef5350]"
         >{footprint.toFixed(2)} of CO2 per GB</span
       >
     </p>
   </div>
-
+  <!-- Grid cols -->
   <div class="w-full h-auto grid grid-cols-2 mt-10 gap-5">
-    <figure id="graph-1"></figure>
-    <figure id="graph-2"></figure>
+    <div
+      class="flex flex-col justify-center w-full h-full border border-slate-800 rounded-md p-6 min-h-64"
+    >
+      <h3 class="text-2xl text-white tracking-tighter font-medium mb-5">
+        Carbon Footprint over Time
+      </h3>
+      <figure id="graph-1" class="w-full h-full border border-slate-800">
+      </figure>
+    </div>
+    <div>
+      <figure id="graph-2"></figure>
+    </div>
   </div>
 </section>
 
@@ -78,8 +89,6 @@ const footprint = userStorage[userId][lastIndex].value * 0.8;
   const graphContainer2 = document.getElementById("graph-2");
 
   const chart = createChart(graphContainer1, {
-    width: 600,
-    height: 400,
     layout: {
       textColor: "#FFFFFF",
       background: { type: ColorType.Solid, color: "#08090A" },
@@ -88,28 +97,21 @@ const footprint = userStorage[userId][lastIndex].value * 0.8;
   });
 
   const data = [
-    { value: 1, time: 1642425322 },
-    { value: 8, time: 1642511722 },
-    { value: 10, time: 1642598122 },
-    { value: 20, time: 1642684522 },
-    { value: 3, time: 1642770922 },
-    { value: 43, time: 1642857322 },
-    { value: 41, time: 1642943722 },
-    { value: 43, time: 1643030122 },
-    { value: 56, time: 1643116522 },
-    { value: 46, time: 1643202922 },
+  { time: 1714898530, value: 1.5046508070081472 },
+  { time: 1714901913, value: 1.5046508070081472 }
   ];
 
   const baselineSeries = chart.addBaselineSeries({
     baseValue: { type: "price", price: 25 },
-    topLineColor: "#EBFF6D",
+    topLineColor: "rgba( 239, 83, 80, 1)",
     topFillColor1: "rgba( 235, 255, 109, 0.28)",
     topFillColor2: "rgba( 38, 166, 154, 0.05)",
-    bottomLineColor: "rgba( 239, 83, 80, 1)",
+    bottomLineColor: "#EBFF6D",
     bottomFillColor1: "rgba( 239, 83, 80, 0.05)",
     bottomFillColor2: "rgba( 239, 83, 80, 0.28)",
   });
 
   baselineSeries.setData(data as BaselineData<Time>[]);
+
   chart.timeScale().fitContent();
 </script>
