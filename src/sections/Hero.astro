@@ -12,8 +12,8 @@ const session = await getSession(Astro.request);
   {
     !session && (
       <Dialog
-        title="You must log in."
-        description="To calculate your carbon footprint, you must log in."
+        title="You must sign in."
+        description="To calculate your carbon footprint, you must sign in with your google account"
       />
     )
   }
@@ -42,7 +42,7 @@ const session = await getSession(Astro.request);
     </aside>
     <!-- Second section grid -->
     <div
-      class="w-full h-full flex flex-col justify-between items-start z-10 py-[4rem] pr-[4rem]"
+      class="w-full h-full flex flex-col gap-5 justify-center items-start z-10 py-[4rem] pr-[4rem]"
     >
       <!-- Gap Div -->
       <div></div>
@@ -54,23 +54,17 @@ const session = await getSession(Astro.request);
           <Calculate id="calculate" />
         )
       }
-      <!-- Footer hero -->
-      <div>
-        <div class="flex justify-start items-center gap-5">
-          <span class="text-white/50 font-bold text-[2rem]">01</span>
-          <h1 class="text-[2rem] text-white tracking-tighter font-semibold">
-            Calculate your footprint.
-          </h1>
-        </div>
-        <div class="flex gap-x-16">
-          <div></div>
-          <p
-            class="max-w-[382px] text-balance text-sm text-slate-300 tracking-tight"
-          >
-            Let's create a mindful digital world. Calculate your carbon
-            footprint and learn how to reduce it.
-          </p>
-        </div>
+      <!-- Footer -->
+      <div class="mb-10  p-5 rounded-lg backdrop-blur w-full">
+        <h1 class="text-[2rem] text-white tracking-tighter font-semibold">
+          Calculate your footprint.
+        </h1>
+        <p
+          class="max-w-[382px] text-balance text-sm text-slate-200 tracking-tight"
+        >
+          Let's create a mindful digital world. Calculate your carbon footprint
+          and learn how to reduce it.
+        </p>
       </div>
     </div>
   </div>
@@ -90,9 +84,8 @@ const session = await getSession(Astro.request);
     calculateNoSessionBtn.onclick = () => dialog.showModal();
   }
 
-  if(calculateBtn){
+  if (calculateBtn) {
     calculateBtn.onclick = () => {
-
       fetch("api/fetchData").then((res) => {
         if (res.status === 401) {
           console.log("You must log in to calculate your carbon footprint.");
@@ -100,11 +93,8 @@ const session = await getSession(Astro.request);
           window.location.href = "/dashboard";
         }
       });
-      
-      // window.location.href = "/dashboard";
-    }
+    };
   }
-  
 </script>
 <style>
   .vignette {
