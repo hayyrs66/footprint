@@ -3,7 +3,6 @@ import type { APIContext } from "astro";
 import { db, Storage, NOW } from "astro:db";
 import { getSession } from "auth-astro/server";
 
-
 const res = (
   body: string,
   {
