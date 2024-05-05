@@ -5,6 +5,7 @@ const Storage = {
     id: column.number({ primaryKey: true }),
     userId: column.text(),
     storage: column.number(),
+    storageLimit: column.number(),
     calculatedAt: column.date()
   }
 }
