@@ -5,10 +5,9 @@ import { db, Storage } from "astro:db";
 import { eq } from "astro:db";
 
 const session = await getSession(Astro.request);
-
 const userId = session.user.id;
-
 const userStorage = [];
+export let retrievedCorrectly = false;
 
 const userDataDb = await db
   .select()
@@ -28,7 +27,14 @@ userDataDb.forEach((data) => {
 const lastIndex = userStorage.length - 1;
 const footprint = userStorage[lastIndex].value * 0.8;
 
-console.log(userStorage);
+// console.log(userStorage);
+
+
+if(userStorage.length > 0) {
+  retrievedCorrectly = true;
+}
+
+console.log(userStorage.length)
 ---
 
 <section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
