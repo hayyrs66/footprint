@@ -1,12 +1,15 @@
 ---
 import Loader from "../components/Loader.astro";
+import CircularProgress from "../components/CircularProgress.astro";
 import { getSession } from "auth-astro/server";
 import { db, Storage } from "astro:db";
 import { eq } from "astro:db";
+import { Icon } from "astro-icon/components";
 
 const session = await getSession(Astro.request);
 const userId = session.user.id;
 const userStorage = [];
+const limit = null;
 export let retrievedCorrectly = false;
 
 const userDataDb = await db
@@ -19,47 +22,65 @@ userDataDb.forEach((data) => {
     // time: data.calculatedAt.toISOString().split("T")[0],
     time: new Date(data.calculatedAt).getTime() / 1000,
     value: data.storage / 1024 / 1024 / 1024,
+    limit: data.storageLimit / 1024 / 1024 / 1024,
   };
 
   userStorage.push(entry);
 });
 
+console.log(userStorage);
+
 const lastIndex = userStorage.length - 1;
 const footprint = userStorage[lastIndex].value * 0.8;
 
-// console.log(userStorage);
-
-
-if(userStorage.length > 0) {
+if (userStorage.length > 0) {
   retrievedCorrectly = true;
 }
-
-console.log(userStorage.length)
 ---
 
 <section class="w-full h-screen mt-[8rem] bg-bg-gray px-[4rem]">
   <!-- <Loader /> -->
-  <div class="flex items-center gap-5">
-    <h1 class="text-primary text-6xl tracking-tighter font-medium title-text">
-      Hello {session.user.name}!
-    </h1>
-    <img
-      src={session.user.image}
-      class="picture rounded-full"
-      width="60"
-      height="60"
-      alt="user profile picture"
-    />
-  </div>
-  <div>
-    <p class="text-white font-medium text-lg tracking-tighter storageContainer">
-      Your storage usage: {userStorage[lastIndex].value.toFixed(2)} GB
-    </p>
-    <p class="text-white font-medium text-lg tracking-tighter">
-      Your footprint is: <span class="text-[#ef5350]"
-        >{footprint.toFixed(2)} of CO2 per GB</span
+  <h1
+    class="text-primary text-6xl tracking-tighter font-medium title-text mb-1"
+  >
+    Hello {session.user.name}!
+  </h1>
+  <p class="text-white font-medium tracking-tighter text-lg mb-5">These are your data.</p>
+  <div class="flex gap-2">
+    <div
+      class="flex flex-col justify-center items-center border bg-[#0e0f11] border-slate-700 rounded-[5px] py-5 px-12"
+    >
+      <p
+        class="text-white font-bold text-lg tracking-tighter storageContainer mb-5"
       >
-    </p>
+        Drive Usage
+      </p>
+      <div>
+        <CircularProgress
+          limit={userStorage[lastIndex].limit}
+          usage={userStorage[lastIndex].value.toFixed(2)}
+        />
+      </div>
+      <p
+        class="text-white font-medium text-sm tracking-tighter storageContainer mt-5"
+      >
+        {userStorage[lastIndex].value.toFixed(2)} GB of {
+          userStorage[lastIndex].limit.toFixed(2)
+        } GB
+      </p>
+    </div>
+    <div
+      class="flex justify-start items-center flex-col border bg-[#0e0f11] border-red-400 rounded-[5px] py-5 px-12"
+    >
+      <p class="text-white font-bold text-lg tracking-tighter">Footprint</p>
+      <div class="flex justify-center items-center flex-col w-full h-full">
+        <span class="text-red-400 text-4xl font-extrabold tracking-tighter"
+          >{footprint.toFixed(2)}</span
+        >
+        <span class="text-red-400 tracking-tighter font-medium">g of CO2 per GB</span>
+        <Icon class="text-red-400" name="leave" width={50} height={50} />
+      </div>
+    </div>
   </div>
   <!-- Grid cols -->
   <div class="w-full h-full mt-10 gap-5">
@@ -67,7 +88,7 @@ console.log(userStorage.length)
       class="flex flex-col justify-center w-full h-full border border-slate-800 rounded-md p-6 min-h-64"
     >
       <h3 class="text-2xl text-white tracking-tighter font-medium mb-5">
-        Carbon Footprint over Time
+        Your Carbon Footprint over Time
       </h3>
       <figure
         data-storage={JSON.stringify(userStorage)}
@@ -107,8 +128,6 @@ console.log(userStorage.length)
     JSON.parse(graphContainer1.dataset.storage).forEach((entry) => {
       data.push({ time: entry.time, value: entry.value });
     });
-
-  console.log("hola, acá la data: ", data);
 
   baselineSeries.setData(data);
 
