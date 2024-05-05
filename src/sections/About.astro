@@ -3,38 +3,57 @@ import { Icon } from "astro-icon/components";
 ---
 
 <section class="w-full h-full px-[4rem] py-[6rem] bg-[#101309]">
-  <div class="grid grid-cols-2 w-full h-full gap-10">
+  <div class="grid grid-cols-2 w-fit h-full gap-16">
+    <!-- First Grid Div -->
     <div class="w-full h-full">
-      <img
-        src="nature.avif"
-        alt="Nature and mountains"
-        class="w-full h-full max-h-[400px] object-cover"
-      />
-    </div>
-    <div>
-      <div class="flex justify-start items-center gap-5">
-        <h3
-          class="text-primary text-4xl uppercase font-medium tracking-tighter"
-        >
-          Purpose
-        </h3>
-        <Icon name="star" width={30} height={30} />
+      <div class="flex items-center w-full gap-3">
         <span
-          class="text-primary text-4xl uppercase font-medium tracking-tighter"
+          class="text-primary text-2xl uppercase font-medium tracking-tighter"
           >(01)</span
         >
+        <h2
+          class="text-primary text-2xl uppercase font-medium tracking-tighter"
+        >
+          Purpose
+        </h2>
+        <Icon name="star" width={30} height={30} />
       </div>
       <p
-        class="text-white font-normal mt-5 max-w-[40ch] leading-tight tracking-tight text-balance"
+        class="text-primary font-normal mt-5 max-w-[40ch] text-base leading-tight tracking-tight text-balance"
       >
         We are an open-source project developed by students from Rafael Landívar
         University, committed to environmental awareness in the digital age.
         <br />
         <br />
-        We calculate the ecological footprint of your mobile device using data such
-        as cloud storage on Google services and other estimates. Our goal is to encourage
+        We calculate the ecological footprint of your device using data such as cloud
+        storage on Google services and other estimates. Our goal is to encourage
         more sustainable decisions in your digital life. Join us on this journey
         towards a greener and technologically conscious future.
+      </p>
+    </div>
+    <!-- Second grid Div -->
+    <div class="w-full h-full">
+      <div class="flex items-center w-full gap-3">
+        <span
+          class="text-white text-2xl uppercase font-medium tracking-tighter"
+        >
+          (02)
+        </span>
+        <h2 class="text-white text-2xl uppercase font-medium tracking-tighter">
+          Reduce your footprint
+        </h2>
+        <Icon class="text-white" name="globe" width={30} height={30} />
+      </div>
+      <p
+        class="text-white font-normal mt-5 max-w-[40ch] leading-tight tracking-tight text-balance text-base"
+      >
+        You should delete irrelevant, duplicate, or expired files, such as
+        unnecessary photos, emails, or documents. This action is not limited to
+        a single cloud storage service like Google Drive but extends to any
+        similar platform you use. Adopting this practice will help you stay
+        organized and reduce the energy demand of the servers hosting your data.
+        Additionally, consider deleting old or mistakenly created accounts on
+        services like Google that you no longer use.
       </p>
     </div>
   </div>
