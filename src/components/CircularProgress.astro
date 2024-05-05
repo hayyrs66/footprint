@@ -4,30 +4,34 @@ const percentage = (usage / limit) * 100;
 ---
 
 <div class="w-full h-full flex justify-center items-center">
-    <div class="circular-progress">
-        <span class="progress-value text-white z-10" data-percentage={percentage}></span>
-    </div>
+  <div class="circular-progress">
+    <span class="progress-value text-white z-10" data-percentage={percentage}
+    ></span>
+  </div>
 </div>
 
 <script>
-        const circularProgress = document.querySelector('.circular-progress') as HTMLDivElement;
-        const progressValue = document.querySelector('.progress-value') as HTMLSpanElement;
-        
-        let progress = 0;
-        const endProgress = parseInt(progressValue.dataset.percentage);
+  const circularProgress = document.querySelector(
+    ".circular-progress"
+  ) as HTMLDivElement;
+  const progressValue = document.querySelector(
+    ".progress-value"
+  ) as HTMLSpanElement;
 
-        console.log("el progreso", endProgress)
-        
-        const interval = setInterval(() => {
-                progress += 1;
-                progressValue.textContent = `${progress}%`;
-                circularProgress.style.background = `conic-gradient(#ebff6d ${progress * 3.6}deg, #08090a 0deg)`;
-                circularProgress.style.setProperty('--rotate', `${progress * 3.6}deg`);
-        
-                if (progress >= endProgress) {
-                        clearInterval(interval);
-                }
-        }, 50);
+  if (progressValue && circularProgress && progressValue.dataset.percentage) {
+    let progress = 0;
+    const endProgress = parseInt(progressValue.dataset.percentage);
+    const interval = setInterval(() => {
+      progress += 1;
+      progressValue.textContent = `${progress}%`;
+      circularProgress.style.background = `conic-gradient(#ebff6d ${progress * 3.6}deg, #08090a 0deg)`;
+      circularProgress.style.setProperty("--rotate", `${progress * 3.6}deg`);
+
+      if (progress >= endProgress) {
+        clearInterval(interval);
+      }
+    }, 50);
+  }
 </script>
 
 <style>
@@ -51,5 +55,14 @@ const percentage = (usage / limit) * 100;
     width: 80%;
     height: 80%;
     border-radius: 50%;
+  }
+
+  color {
+    color: rgba(239, 83, 80, 1);
+    color: rgba(239, 83, 80, 0.678);
+    color: rgba(166, 38, 38, 0.05);
+    color: #ebff6d;
+    color: #ecff6d11;
+    color: #ecff6d33;
   }
 </style>
