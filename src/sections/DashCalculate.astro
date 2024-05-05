@@ -8,7 +8,7 @@ const session = await getSession(Astro.request);
 
 const userId = session.user.id;
 
-const userStorage = {};
+const userStorage = [];
 
 const userDataDb = await db
   .select()
@@ -18,19 +18,15 @@ const userDataDb = await db
 userDataDb.forEach((data) => {
   const entry = {
     // time: data.calculatedAt.toISOString().split("T")[0],
-    time:  new Date(data.calculatedAt).getTime() / 1000,
+    time: new Date(data.calculatedAt).getTime() / 1000,
     value: data.storage / 1024 / 1024 / 1024,
   };
 
-  if (!userStorage[data.userId]) {
-    userStorage[data.userId] = [];
-  }
-
-  userStorage[data.userId].push(entry);
+  userStorage.push(entry);
 });
 
-const lastIndex = userStorage[userId].length - 1;
-const footprint = userStorage[userId][lastIndex].value * 0.8;
+const lastIndex = userStorage.length - 1;
+const footprint = userStorage[lastIndex].value * 0.8;
 
 console.log(userStorage);
 ---
@@ -51,7 +47,7 @@ console.log(userStorage);
   </div>
   <div>
     <p class="text-white font-medium text-lg tracking-tighter storageContainer">
-      Your storage usage: {userStorage[userId][lastIndex].value.toFixed(2)} GB
+      Your storage usage: {userStorage[lastIndex].value.toFixed(2)} GB
     </p>
     <p class="text-white font-medium text-lg tracking-tighter">
       Your footprint is: <span class="text-[#ef5350]"
@@ -60,33 +56,26 @@ console.log(userStorage);
     </p>
   </div>
   <!-- Grid cols -->
-  <div class="w-full h-auto grid grid-cols-2 mt-10 gap-5">
+  <div class="w-full h-full mt-10 gap-5">
     <div
       class="flex flex-col justify-center w-full h-full border border-slate-800 rounded-md p-6 min-h-64"
     >
       <h3 class="text-2xl text-white tracking-tighter font-medium mb-5">
         Carbon Footprint over Time
       </h3>
-      <figure id="graph-1" class="w-full h-full border border-slate-800">
+      <figure
+        data-storage={JSON.stringify(userStorage)}
+        id="graph-1"
+        class="w-full h-full border border-slate-800"
+      >
       </figure>
-    </div>
-    <div>
-      <figure id="graph-2"></figure>
     </div>
   </div>
 </section>
 
 <script>
-  import {
-    ColorType,
-    createChart,
-    type BaselineData,
-    type DeepPartial,
-    type Time,
-    type TimeChartOptions,
-  } from "lightweight-charts";
+  import { ColorType, createChart } from "lightweight-charts";
   const graphContainer1 = document.getElementById("graph-1");
-  const graphContainer2 = document.getElementById("graph-2");
 
   const chart = createChart(graphContainer1, {
     layout: {
@@ -95,11 +84,6 @@ console.log(userStorage);
     },
     grid: { vertLines: { color: "#1f1f1f" }, horzLines: { color: "#1f1f1f" } },
   });
-
-  const data = [
-  { time: 1714898530, value: 1.5046508070081472 },
-  { time: 1714901913, value: 1.5046508070081472 }
-  ];
 
   const baselineSeries = chart.addBaselineSeries({
     baseValue: { type: "price", price: 25 },
@@ -111,7 +95,16 @@ console.log(userStorage);
     bottomFillColor2: "rgba( 239, 83, 80, 0.28)",
   });
 
-  baselineSeries.setData(data as BaselineData<Time>[]);
+  const data = [];
+
+  graphContainer1.dataset.storage &&
+    JSON.parse(graphContainer1.dataset.storage).forEach((entry) => {
+      data.push({ time: entry.time, value: entry.value });
+    });
+
+  console.log("hola, acá la data: ", data);
+
+  baselineSeries.setData(data);
 
   chart.timeScale().fitContent();
 </script>
