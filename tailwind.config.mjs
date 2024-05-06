@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {
 			backgroundImage: {
-				'hero': "url('/nature-2.jpg')",
+				'hero': "url('/nature-4.jpg')",
 			},
 
 			animation: {

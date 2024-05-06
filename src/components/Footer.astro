@@ -1,0 +1,30 @@
+<footer
+  class="w-full h-full flex page-footer justify-between items-center bg-[#101309] py-2 px-[4rem]"
+>
+  <div>
+    <a
+      href="https://github.com/hayyrs66"
+      target="_blank"
+      class="text-primary text-xs tracking-tighter uppercase cursor-pointer"
+      href="">By &copy; Ricardo Guevara</a
+    >
+  </div>
+  <nav>
+    <a
+      class="text-primary text-xs tracking-tighter uppercase cursor-pointer"
+      href=""
+    >
+      Privacy Policy
+    </a>
+  </nav>
+</footer>
+
+<script>
+    const footer = document.querySelector('.page-footer') as HTMLElement;
+    
+    const url = window.location.href;
+
+    if(url.includes('/dashboard')){
+        footer.style.backgroundColor = 'transparent';
+    }
+</script>

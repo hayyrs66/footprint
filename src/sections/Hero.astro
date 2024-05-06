@@ -1,24 +1,23 @@
 ---
 import { getSession } from "auth-astro/server";
 import Dialog from "../components/Dialog.astro";
+import Calculate from "../components/Calculate.astro";
 const session = await getSession(Astro.request);
-
-
-
 ---
 
 <section
   class="bg-hero w-full h-screen bg-no-repeat bg-cover bg-center relative"
 >
-  <!-- Overlapping effects -->
+  <!-- Dialogs -->
   {
     !session && (
       <Dialog
-        title="You must log in."
-        description="To calculate your carbon footprint, you must log in."
+        title="You must sign in."
+        description="To calculate your carbon footprint, you must sign in with your google account"
       />
     )
   }
+
   <div class="vignette"></div>
   <div class="mask"></div>
   <!-- Main Grid Two Sections Container -->
@@ -32,10 +31,10 @@ const session = await getSession(Astro.request);
           Make it
           <div class="flex w-full h-auto justify-end items-center">
             <img
-              src="src/icons/globe.svg"
+              src="src/icons/greenglobe.svg"
               width={80}
               height={80}
-              class="animate-spin"
+              class="animate-spin text-primary"
             />
             <span class="text-primary">Green</span>
           </div>
@@ -44,42 +43,29 @@ const session = await getSession(Astro.request);
     </aside>
     <!-- Second section grid -->
     <div
-      class="w-full h-full flex flex-col justify-between items-start z-10 py-[4rem] pr-[4rem]"
+      class="w-full h-full flex flex-col gap-5 justify-center items-start z-10 py-[4rem] pr-[4rem]"
     >
       <!-- Gap Div -->
       <div></div>
       <!-- Calculate button -->
-      <button id="calculate" class="w-full h-auto outline-none"></button>
-        <div
-          class="flex justify-center items-center custom-border w-full h-[220px] p-[0.5rem] z-[2] cursor-default"
+      {
+        session ? (
+          <Calculate id="session-calculate" />
+        ) : (
+          <Calculate id="calculate" />
+        )
+      }
+      <!-- Footer -->
+      <div class="mb-10 p-5 rounded-lg backdrop-blur w-full">
+        <h1 class="text-[2rem] text-white tracking-tighter font-semibold">
+          Calculate your footprint.
+        </h1>
+        <p
+          class="max-w-[382px] text-balance text-sm text-slate-200 tracking-tight"
         >
-          <div
-            class="p-[1rem] backdrop-blur-lg bg-white/10 hover:bg-white/5 hover:text-primary text-white transition-colors rounded-md w-full h-full flex flex-col justify-center items-center cursor-pointer"
-          >
-            <span class="font-medium text-5xl tracking-tighter calculate-span">
-              Calculate Now
-            </span>
-          </div>
-        </div>
-      </button>
-      </button>
-      <!-- Footer hero -->
-      <div>
-        <div class="flex justify-start items-center gap-5">
-          <span class="text-white/50 font-bold text-[2rem]">01</span>
-          <h1 class="text-[2rem] text-white tracking-tighter font-semibold">
-            Calculate your footprint.
-          </h1>
-        </div>
-        <div class="flex gap-x-16">
-          <div></div>
-          <p
-            class="max-w-[382px] text-balance text-sm text-slate-300 tracking-tight"
-          >
-            Let's create a mindful digital world. Calculate your carbon
-            footprint and learn how to reduce it.
-          </p>
-        </div>
+          Let's create a mindful digital world. Calculate your carbon footprint
+          and learn how to reduce it.
+        </p>
       </div>
     </div>
   </div>
@@ -87,13 +73,22 @@ const session = await getSession(Astro.request);
 </section>
 
 <script>
-   const dialog = document.getElementById("alert-dialog") as HTMLDialogElement;
-   const calculateButton = document.getElementById("calculate") as HTMLButtonElement;
+  const dialog = document.getElementById("alert-dialog") as HTMLDialogElement;
+  const calculateNoSessionBtn = document.getElementById(
+    "calculate"
+  ) as HTMLButtonElement;
+  const calculateBtn = document.getElementById(
+    "session-calculate"
+  ) as HTMLButtonElement;
 
-   if(dialog){
-    calculateButton.onclick = () => dialog.showModal();
-   }
-
+  if (dialog && calculateNoSessionBtn) {
+    calculateNoSessionBtn.onclick = () => dialog.showModal();
+  }
+  if (calculateBtn) {
+    calculateBtn.onclick = () => {
+      window.location.href = "api/fetchData";
+    };
+  }
 </script>
 <style>
   .vignette {
@@ -118,10 +113,5 @@ const session = await getSession(Astro.request);
     transform: translate(-50%, -50%);
     background-color: #101309;
     mask-image: linear-gradient(to bottom, transparent 50%, #101309 95%);
-  }
-
-  .custom-border {
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23EBFF6DFF' stroke-width='3' stroke-dasharray='10%2c 15' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-    border-radius: 6px;
   }
 </style>

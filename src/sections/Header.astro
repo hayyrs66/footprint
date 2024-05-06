@@ -1,54 +1,67 @@
 ---
 import { getSession } from "auth-astro/server";
-
+import { retrievedCorrectly } from "../pages/dashboard.astro";
 const session = (await getSession(Astro.request)) as any;
 import SignInAlert from "../components/SignInAlert.astro";
-
+import { Icon } from "astro-icon/components";
 ---
 
 <header
-  class="flex justify-between fixed top-0 left-0 w-full z-50 px-[4rem] py-[1rem]"
+  id="page-header"
+  class="flex justify-between fixed top-0 left-0 w-full z-50 px-[4rem] py-[0.8rem]"
 >
   {!session && <SignInAlert />}
   <div class="flex flex-col">
     <a
       href="/"
-      class="text-white cursor-pointer tracking-tighter text-2xl font-semibold"
+      class="text-white cursor-pointer tracking-tighter text-xl font-semibold hover:text-primary transition-colors"
     >
       Green Digital
     </a>
   </div>
   <nav class="flex items-center gap-5">
     {
-      session ? (
-        <button
-          id="log-out"
-          class="text-white tracking-tight text-md font-medium cursor-pointer"
-        />
-      ) : (
+      session && (
+        <a
+          id="dashboard-btn"
+          href="/dashboard"
+          class="text-white tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
+        >
+          Dashboard
+        </a>
+      )
+    }
+
+    {
+      !session && (
         <button
           id="sign-in"
-          class="text-white tracking-tight text-md font-medium cursor-pointer"
+          class="flex gap-2  justify-center items-center text-white tracking-tight text-sm font-medium cursor-pointer bg-bg-gray/20 px-5 py-1 hover:text-primary transition-colors
+          outline-none border-none rounded-[5px]"
         >
           Sign in
+          <Icon name="google" width={20} height={20} />
         </button>
       )
     }
     <a
-      href="/dashboard"
-      class="text-white tracking-tight text-md font-medium cursor-pointer"
-      >Dashboard</a
+      href="https://github.com/hayyrs66/footprint"
+      target="_blank"
+      class="flex justify-center items-center gap-1 text-white tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
     >
-    <a
-      href=""
-      class="text-white tracking-tight text-md font-medium cursor-pointer"
-      >Github</a
-    >
-    <a
-      href=""
-      class="text-white tracking-tight text-md font-medium cursor-pointer"
-      >Contact</a
-    >
+      Github
+      <Icon name="github" width={20} height={20} />
+    </a>
+    {
+      session && (
+        <button
+          id="log-out"
+          class="text-red-300 bg-bg-gray/20 px-2 py-1 rounded-[5px] tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
+        >
+          Sign out
+        </button>
+      )
+    }
   </nav>
 </header>
 
@@ -56,8 +69,21 @@ import SignInAlert from "../components/SignInAlert.astro";
   const { signOut } = await import("auth-astro/client");
 
   const logOutButton = document.getElementById("log-out") as HTMLButtonElement;
+  const header = document.getElementById("page-header") as HTMLElement;
 
   if (logOutButton) {
     logOutButton.onclick = () => signOut();
   }
+
+  console.log(scrollY);
+
+  window.addEventListener("scroll", () => {
+    if (scrollY > 50) {
+      header.style.backdropFilter = "blur(5px)";
+      header.style.borderBottom = "1px solid rgba(235, 255, 109, 0.1)";
+    } else {
+      header.style.backdropFilter = "none";
+      header.style.borderBottom = "none";
+    }
+  });
 </script>
