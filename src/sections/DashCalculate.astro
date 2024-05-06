@@ -2,40 +2,11 @@
 import Loader from "../components/Loader.astro";
 import CircularProgress from "../components/CircularProgress.astro";
 import { getSession } from "auth-astro/server";
-import { db, Storage } from "astro:db";
-import { eq } from "astro:db";
 import { Icon } from "astro-icon/components";
 
 const session = await getSession(Astro.request);
-const userId = session.user.id;
-const userStorage = [];
-const limit = null;
-export let retrievedCorrectly = false;
 
-const userDataDb = await db
-  .select()
-  .from(Storage)
-  .where(eq(Storage.userId, userId));
-
-userDataDb.forEach((data) => {
-  const entry = {
-    // time: data.calculatedAt.toISOString().split("T")[0],
-    time: new Date(data.calculatedAt).getTime() / 1000,
-    value: data.storage / 1024 / 1024 / 1024,
-    limit: data.storageLimit / 1024 / 1024 / 1024,
-  };
-
-  userStorage.push(entry);
-});
-
-console.log(userStorage);
-
-const lastIndex = userStorage.length - 1;
-const footprint = userStorage[lastIndex].value * 0.8;
-
-if (userStorage.length > 0) {
-  retrievedCorrectly = true;
-}
+const { userStorage, lastIndex, footprint } = Astro.props;
 ---
 
 <section class="w-full h-full mt-[8rem] bg-bg-gray px-[4rem]">
@@ -50,7 +21,7 @@ if (userStorage.length > 0) {
   </p>
   <div class="flex gap-2">
     <div
-      class="flex flex-col justify-center items-center border bg-[#0e0f11] border-primary/50 rounded-[5px] py-5 px-12
+      class="flex flex-col justify-center items-center border border-primary/50 rounded-[5px] py-5 px-12
       min-w-[250px]"
     >
       <p
@@ -73,7 +44,7 @@ if (userStorage.length > 0) {
       </p>
     </div>
     <div
-      class="flex justify-start items-center flex-col border bg-[#0e0f11] border-red-400 rounded-[5px] py-5 px-12 min-w-[250px]"
+      class="flex justify-start items-center flex-col border border-red-400 rounded-[5px] py-5 px-12 min-w-[250px]"
     >
       <p class="text-white font-bold text-lg tracking-tighter">Footprint</p>
       <div class="flex justify-center items-center flex-col w-full h-full">
@@ -120,16 +91,19 @@ if (userStorage.length > 0) {
   const graphContainer1 = document.getElementById("graph-1");
   const data = [];
 
-  if(graphContainer1){
+  if (graphContainer1) {
     const chart = createChart(graphContainer1, {
       layout: {
         textColor: "#FFFFFF",
         background: { type: ColorType.Solid, color: "#08090A" },
       },
-      grid: { vertLines: { color: "#1f1f1f" }, horzLines: { color: "#1f1f1f" } },
+      grid: {
+        vertLines: { color: "#1f1f1f" },
+        horzLines: { color: "#1f1f1f" },
+      },
       autoSize: true,
     });
-  
+
     const baselineSeries = chart.addBaselineSeries({
       baseValue: { type: "price", price: 25 },
       topLineColor: "rgba( 239, 83, 80, 1)",
@@ -139,20 +113,18 @@ if (userStorage.length > 0) {
       bottomFillColor1: "rgba(117, 166, 38, 0.05)",
       bottomFillColor2: "#ecff6d33",
     });
-  
-  
+
     graphContainer1.dataset.storage &&
       JSON.parse(graphContainer1.dataset.storage).forEach((entry) => {
         data.push({ time: entry.time, value: entry.value });
       });
 
-      if(data.length > 0){
-        baselineSeries.setData(data);
-      }
-  
+    if (data.length > 0) {
+      baselineSeries.setData(data);
+    }
+
     baselineSeries.setData(data);
-  
+
     chart.timeScale().fitContent();
   }
-
 </script>
