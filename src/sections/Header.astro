@@ -1,11 +1,9 @@
 ---
 import { getSession } from "auth-astro/server";
-import { retrievedCorrectly } from "./DashCalculate.astro";
+import { retrievedCorrectly } from "../pages/dashboard.astro";
 const session = (await getSession(Astro.request)) as any;
 import SignInAlert from "../components/SignInAlert.astro";
 import { Icon } from "astro-icon/components";
-
-console.log("data traída correctamente?", retrievedCorrectly);
 ---
 
 <header
@@ -23,14 +21,14 @@ console.log("data traída correctamente?", retrievedCorrectly);
   </div>
   <nav class="flex items-center gap-5">
     {
-      retrievedCorrectly && (
-          <a
-            id="dashboard-btn"
-            href="/dashboard"
-            class="text-white tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
-          >
-            Dashboard
-          </a>
+      session && (
+        <a
+          id="dashboard-btn"
+          href="/dashboard"
+          class="text-white tracking-tight text-sm font-medium cursor-pointer hover:text-primary transition-colors"
+        >
+          Dashboard
+        </a>
       )
     }
 
@@ -69,7 +67,6 @@ console.log("data traída correctamente?", retrievedCorrectly);
 
 <script>
   const { signOut } = await import("auth-astro/client");
-  
 
   const logOutButton = document.getElementById("log-out") as HTMLButtonElement;
   const header = document.getElementById("page-header") as HTMLElement;
@@ -78,8 +75,7 @@ console.log("data traída correctamente?", retrievedCorrectly);
     logOutButton.onclick = () => signOut();
   }
 
-  console.log(scrollY)
-  
+  console.log(scrollY);
 
   window.addEventListener("scroll", () => {
     if (scrollY > 50) {
@@ -89,5 +85,5 @@ console.log("data traída correctamente?", retrievedCorrectly);
       header.style.backdropFilter = "none";
       header.style.borderBottom = "none";
     }
-  }); 
+  });
 </script>
