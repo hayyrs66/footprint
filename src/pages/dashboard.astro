@@ -1,8 +1,64 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import DashCalculate from "../sections/DashCalculate.astro"
+import Layout from "../layouts/Layout.astro";
+import DashCalculate from "../sections/DashCalculate.astro";
+import { getSession } from "auth-astro/server";
+import { db, Storage, eq } from "astro:db";
+
+let userStorage = [];
+let lastIndex = 0;
+let footprint = 0;
+export let retrievedCorrectly = false;
+
+try {
+  const session = await getSession(Astro.request);
+
+  if (!session) {
+    return Astro.redirect("/");
+  }
+
+  const userId = session.user.id;
+
+  let userDataDb = [];
+
+  try {
+    userDataDb = await db
+      .select()
+      .from(Storage)
+      .where(eq(Storage.userId, userId));
+
+    userDataDb.forEach((data) => {
+      const entry = {
+        time: new Date(data.calculatedAt).getTime() / 1000,
+        value: data.storage / 1024 / 1024 / 1024,
+        limit: data.storageLimit / 1024 / 1024 / 1024,
+      };
+
+      userStorage.push(entry);
+    });
+
+    lastIndex = userStorage.length - 1;
+    footprint = userStorage[lastIndex].value * 0.8;
+    
+    if (userStorage.length > 0) {
+      retrievedCorrectly = true;
+    }
+    
+  } catch (error) {
+    console.error("Error:", error);
+    return Astro.redirect("/");
+  }
+} catch (error) {
+  console.error("Error:", error);
+  return Astro.redirect("/");
+}
+
+console.log(userStorage);
 ---
 
 <Layout title="Dashboard footprint">
-    <DashCalculate />
+  <DashCalculate
+    userStorage={userStorage}
+    lastIndex={lastIndex}
+    footprint={footprint}
+  />
 </Layout>
